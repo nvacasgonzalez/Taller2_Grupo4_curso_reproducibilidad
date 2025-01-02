@@ -13,10 +13,10 @@ format:
     title-block-banner: "#ffffff"
     smooth-scroll: true
     toc: true
-    toc-depth: 6
+    toc-depth: 2
     toc-location: right
     number-sections: true
-    number-depth: 6
+    number-depth: 2
     code-fold: true
     bibliography: ref.bib
     csl: apa-numeric-superscript.csl
