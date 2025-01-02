@@ -3,9 +3,10 @@ title: "Desafíos para la implementación de las nuevas bases curriculares en la
 subtitle: "Informe"
 author:
   - name: "Agustín Rabié"
-          "Natalia Vacas González"
     email: "agustin.rabie_n@mail.udp.cl"
-           "natalia.vacasgonzalez@gmail.com"
+  - name: "Natalia Vacas González"
+    email: "natalia.vacasgonzalez@gmail.com"
+
 date: "`r Sys.Date()`"
 lang: es
 format:
@@ -13,10 +14,10 @@ format:
     title-block-banner: "#ffffff"
     smooth-scroll: true
     toc: true
-    toc-depth: 2
+    toc-depth: 3
     toc-location: right
     number-sections: true
-    number-depth: 2
+    number-depth: 3
     code-fold: true
     theme: cosmo
     fig-cap-location: bottom
@@ -31,9 +32,19 @@ execute:
 
 <img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
 
-## Quart
+## Antecedentes contextuales
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+### Nuevas Bases Curriculares para la Educación de Personas Jóvenes y Adultas (2024)
+
+El actual Gobierno de Chile, a través del Ministerio de Educación se encuentra impulsando las nuevas Bases Curriculares para la Formación General, Formación Instrumental y Formación Diferenciada de la Educación para Personas Jóvenes y Adultas.
+
+Estas nuevas Bases curriculares buscan actualizar la definición curricular establecida en en el Decreto Supremo N° 257, del año 2009, del Ministerio de Educación que aprobó los contenidos Mínimos Obligatorios para la Educación de personas Jóvenes y Adultas” (MINEDUC, 2024).
+
+### Impacto sobre la educación de adultos
+
+Esta iniciativa ministerial posee una incidencia directa en la educación de personas en contexto de encierro, ya que en Chile existen 91 establecimientos que imparten educación a más de 12 mil estudiantes que se encuentran privados de libertad, ya sea en recintos penitenciarios o en Sename (MINEDUC, 2024)
+
+De este modo se vuelve crucial levantar antecedentes sobre la potencial población beneficiaria en miras de proporcionar las condiciones necesarias para el desarrollo efectivo del derecho a la educación en contexto de encierro.
 
 ## Running Code
 
