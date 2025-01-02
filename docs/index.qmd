@@ -42,9 +42,29 @@ Estas nuevas Bases curriculares buscan actualizar la definición curricular esta
 
 ### Impacto sobre la educación de adultos
 
-Esta iniciativa ministerial posee una incidencia directa en la educación de personas en contexto de encierro, ya que en Chile existen 91 establecimientos que imparten educación a más de 12 mil estudiantes que se encuentran privados de libertad, ya sea en recintos penitenciarios o en Sename (MINEDUC, 2024)
+Esta iniciativa ministerial posee una incidencia directa en la educación de personas en contexto de encierro, ya que en Chile existen 91 establecimientos que imparten educación a más de 12 mil estudiantes que se encuentran privados de libertad, ya sea en recintos penitenciarios o en Sename ([MINEDUC, 2024](https://escolar.mineduc.cl/profesionales-de-mineduc-ministerio-de-justicia-y-docentes-reflexionan-sobre-desafios-de-la-educacion-en-contextos-de-encierro/))
 
-De este modo se vuelve crucial levantar antecedentes sobre la potencial población beneficiaria en miras de proporcionar las condiciones necesarias para el desarrollo efectivo del derecho a la educación en contexto de encierro.
+De este modo se vuelve crucial levantar antecedentes sobre la potencial población beneficiaria y proporcionar información relevante sobre el grado de desarrollo efectivo del derecho a la educación en contexto de encierro. Esto en miras de establecer una línea base para la implementación de las bases curriculares para la educación de personas privadas de libertad.
+
+## Objetivos
+
+**Objetivo general:** Contribuir a la implementación de las nuevas bases curriculares en la educación para personas jóvenes y adultas en contexto de encierro.
+
+**Objetivos específicos:**
+
+-   Describir las trayectorias socio-educativas de las personas privadas de libertad en Chile.
+
+-   Cuantificar la población beneficiaria potencial de programas educativos en contexto de encierro.
+
+-   Analizar la relación entre la población beneficiaria potencial vs. la cobertura actual ofertada por los centros educativos en contexto de encierro.
+
+## Relevancia del estudio exploratorio
+
+### La educación como factor de reinserción
+
+En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión (Olivares, 2015).
+
+El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia (Scarfó & Castro, 2016). No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno (Sanhueza & Pérez, 2017).
 
 ## Running Code
 
