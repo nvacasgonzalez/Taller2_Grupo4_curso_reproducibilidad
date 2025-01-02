@@ -1,8 +1,34 @@
 ---
 title: "Desafíos para la implementación de las nuevas bases curriculares en la educación de personas privadas de libertad"
-author: "Agustín Rabié, Natalia Vacas"
-format: html
-editor: visual
+subtitle: "Informe"
+author:
+  - name: "Natalia Vacas González"
+  - email: "natalia.vacasgonzalez@gmail.com"
+  - name: "Agustín Rabié"
+  - email: "agustin.rabie_n@mail.udp.cl"
+date: "`r Sys.Date()`"
+lang: es
+format:
+  html:
+    title-block-banner: "#ffffff"
+    smooth-scroll: true
+    toc: true
+    toc-depth: 6
+    toc-location: right
+    number-sections: true
+    number-depth: 6
+    code-fold: true
+    bibliography: ref.bib
+    csl: apa-numeric-superscript.csl
+    theme: cosmo
+    fig-cap-location: bottom
+#    css: styles.css
+execute:
+  python: true
+  warning: false
+  message: false
+  fig-width: 8
+  fig-height: 6
 ---
 
 ## Quarto
