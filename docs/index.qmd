@@ -19,6 +19,7 @@ format:
     number-sections: true
     number-depth: 3
     code-fold: true
+    bibliography: ref.bib
     theme: cosmo
     fig-cap-location: bottom
 #    css: styles.css
