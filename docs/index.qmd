@@ -81,9 +81,9 @@ El presente proyecto se rige bajo los principios que sustentan la ciencia abiert
 
 La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomentando políticas públicas más efectivas [@10.1007/978-981-13-0761-4_40]para la educación de personas privadas de libertad. En un área temática donde, además, es fundamental generar datos de calidad, al alcance de cualquier entidad adminsitrativa, científica o comunitaria para su discusión y enriquecimiento desde distintos puntos de vista.
 
-## Componentes clave de la arquitectura de datos
+## Componentes clave de la arquitectura de datos de la propuesta
 
-El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
+El presente proyecto se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
 
 ### Extracción
 
@@ -103,17 +103,45 @@ Las **bases de datos** a explorar son:
 
 -   Directorio de establecimientos educacionales
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+### Trasnformación (a través de R)
 
-```{r}
-1 + 1
-```
+![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png)
 
-You can add options to executable code like this
+### Carga (mediante GITHUB)
 
-```{r}
-#| echo: false
-2 * 2
-```
+Nuestro **Back Room** o ambiente de trabajo donde se realizan todas las trasnformaciones, integraciones y armonizaciones de los datos es el presente repositorio de Github. Donde se ha silenciado la carpeta data. Lugar donde se encuentran preservadas las bases de datos originales y sus versiones limpiadas normalizadas e integradas.
 
-The `echo: false` option disables the printing of code (only output is displayed).
+En el caso de el Front Room o ambiente donde se comparten y publican los datos transformados y optimizados para consulta y análisis se ha generado la presente HTML producida en Github para la publicación de resultados. Se incluiyen gráficos y mapas interacctivos a través de ggplot2 + plotly y leaflet.
+
+Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter exploratorio del presente proyecto se propone un análisis mediante estadísticos descriptivo.
+
+## Modelo lógico-conceptual de la propuesta
+
+![](fig/Modelo_logico_conceptual.png)
+
+## Metricas y dimensiones
+
+Las metricas diseñadas en función de los obejtivos específicos de la porpuesta son:
+
+-   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos)
+-   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro)
+-   Tasa de cobertura de programas deducativos en contexto de encierro
+
+Y las dimensiones asociadas a dichas metricas son:
+
+-   Dimensión demográfica: sexo, tramo etario, procedencia y nacionalidad, religión, etnia (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión educativa: instrucción de ingreso (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión laboral:actividad laboral al ingreso (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión geográfica: región (Métrica N° y porcetnaje de beneficiarios potenciales, N° y porcentaje de beneficiarios de benediciarios efectivos y Tasa de cobertura de programas educativos en contexto de encierro) 
+
+
+A continuación, se presenta el análisis que se desprende de las mencionadas métricas y dimensiones. 
+
+## Análisis
+
+## Limitaciones y consideraciones éticas
+
+### Limitaciones
+
+
+

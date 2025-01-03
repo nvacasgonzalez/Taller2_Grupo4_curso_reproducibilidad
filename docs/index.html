@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -124,7 +90,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Fecha de publicación</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">2 de enero de 2025</p>
+        <p class="date">Invalid Date</p>
       </div>
     </div>
     
@@ -149,9 +115,18 @@ div.csl-indent {
   <li><a href="#la-educación-como-factor-de-reinserción" id="toc-la-educación-como-factor-de-reinserción" class="nav-link" data-scroll-target="#la-educación-como-factor-de-reinserción"><span class="header-section-number">3.1</span> La educación como factor de reinserción</a></li>
   <li><a href="#ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas." id="toc-ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas." class="nav-link" data-scroll-target="#ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas."><span class="header-section-number">3.2</span> Ciencia abierta para la toma de decisiones informada y la diversidad de miradas.</a></li>
   </ul></li>
-  <li><a href="#componentes-clave-de-la-arquitectura-de-datos" id="toc-componentes-clave-de-la-arquitectura-de-datos" class="nav-link" data-scroll-target="#componentes-clave-de-la-arquitectura-de-datos"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos</a>
+  <li><a href="#componentes-clave-de-la-arquitectura-de-datos-de-la-propuesta" id="toc-componentes-clave-de-la-arquitectura-de-datos-de-la-propuesta" class="nav-link" data-scroll-target="#componentes-clave-de-la-arquitectura-de-datos-de-la-propuesta"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos de la propuesta</a>
   <ul>
   <li><a href="#extracción" id="toc-extracción" class="nav-link" data-scroll-target="#extracción"><span class="header-section-number">4.1</span> Extracción</a></li>
+  <li><a href="#trasnformación-a-través-de-r" id="toc-trasnformación-a-través-de-r" class="nav-link" data-scroll-target="#trasnformación-a-través-de-r"><span class="header-section-number">4.2</span> Trasnformación (a través de R)</a></li>
+  <li><a href="#carga-mediante-github" id="toc-carga-mediante-github" class="nav-link" data-scroll-target="#carga-mediante-github"><span class="header-section-number">4.3</span> Carga (mediante GITHUB)</a></li>
+  </ul></li>
+  <li><a href="#modelo-lógico-conceptual-de-la-propuesta" id="toc-modelo-lógico-conceptual-de-la-propuesta" class="nav-link" data-scroll-target="#modelo-lógico-conceptual-de-la-propuesta"><span class="header-section-number">5</span> Modelo lógico-conceptual de la propuesta</a></li>
+  <li><a href="#metricas-y-dimensiones" id="toc-metricas-y-dimensiones" class="nav-link" data-scroll-target="#metricas-y-dimensiones"><span class="header-section-number">6</span> Metricas y dimensiones</a></li>
+  <li><a href="#análisis" id="toc-análisis" class="nav-link" data-scroll-target="#análisis"><span class="header-section-number">7</span> Análisis</a></li>
+  <li><a href="#limitaciones-y-consideraciones-éticas" id="toc-limitaciones-y-consideraciones-éticas" class="nav-link" data-scroll-target="#limitaciones-y-consideraciones-éticas"><span class="header-section-number">8</span> Limitaciones y consideraciones éticas</a>
+  <ul>
+  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones"><span class="header-section-number">8.1</span> Limitaciones</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -205,9 +180,9 @@ div.csl-indent {
 <p>La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomentando políticas públicas más efectivas <span class="citation" data-cites="10.1007/978-981-13-0761-4_40">(<a href="#ref-10.1007/978-981-13-0761-4_40" role="doc-biblioref">Kaur y Kaur 2019</a>)</span>para la educación de personas privadas de libertad. En un área temática donde, además, es fundamental generar datos de calidad, al alcance de cualquier entidad adminsitrativa, científica o comunitaria para su discusión y enriquecimiento desde distintos puntos de vista.</p>
 </section>
 </section>
-<section id="componentes-clave-de-la-arquitectura-de-datos" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="componentes-clave-de-la-arquitectura-de-datos"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos</h2>
-<p>El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:</p>
+<section id="componentes-clave-de-la-arquitectura-de-datos-de-la-propuesta" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="componentes-clave-de-la-arquitectura-de-datos-de-la-propuesta"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos de la propuesta</h2>
+<p>El presente proyecto se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:</p>
 <section id="extracción" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="extracción"><span class="header-section-number">4.1</span> Extracción</h3>
 <p>Para la extracción de datos se utilizaron las siguientes <strong>fuentes de información</strong>:</p>
@@ -220,28 +195,56 @@ div.csl-indent {
 <li><p>Caracterización de personas privadas de libertad</p></li>
 <li><p>Directorio de establecimientos educacionales</p></li>
 </ul>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+</section>
+<section id="trasnformación-a-través-de-r" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="trasnformación-a-través-de-r"><span class="header-section-number">4.2</span> Trasnformación (a través de R)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/Transformación.png" class="img-fluid figure-img"></p>
+<figcaption>Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas</figcaption>
+</figure>
 </div>
-</div>
-<p>You can add options to executable code like this</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
-</div>
-</div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+</section>
+<section id="carga-mediante-github" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="carga-mediante-github"><span class="header-section-number">4.3</span> Carga (mediante GITHUB)</h3>
+<p>Nuestro <strong>Back Room</strong> o ambiente de trabajo donde se realizan todas las trasnformaciones, integraciones y armonizaciones de los datos es el presente repositorio de Github. Donde se ha silenciado la carpeta data. Lugar donde se encuentran preservadas las bases de datos originales y sus versiones limpiadas normalizadas e integradas.</p>
+<p>En el caso de el Front Room o ambiente donde se comparten y publican los datos transformados y optimizados para consulta y análisis se ha generado la presente HTML producida en Github para la publicación de resultados. Se incluiyen gráficos y mapas interacctivos a través de ggplot2 + plotly y leaflet.</p>
+<p>Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter exploratorio del presente proyecto se propone un análisis mediante estadísticos descriptivo.</p>
+</section>
+</section>
+<section id="modelo-lógico-conceptual-de-la-propuesta" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="modelo-lógico-conceptual-de-la-propuesta"><span class="header-section-number">5</span> Modelo lógico-conceptual de la propuesta</h2>
+<p><img src="fig/Modelo_logico_conceptual.png" class="img-fluid"></p>
+</section>
+<section id="metricas-y-dimensiones" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="metricas-y-dimensiones"><span class="header-section-number">6</span> Metricas y dimensiones</h2>
+<p>Las metricas diseñadas en función de los obejtivos específicos de la porpuesta son:</p>
+<ul>
+<li>N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos)</li>
+<li>N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro)</li>
+<li>Tasa de cobertura de programas deducativos en contexto de encierro</li>
+</ul>
+<p>Y las dimensiones asociadas a dichas metricas son:</p>
+<ul>
+<li>Dimensión demográfica: sexo, tramo etario, procedencia y nacionalidad, religión, etnia (Métrica N° y porcentaje de beneficiarios potenciales)</li>
+<li>Dimensión educativa: instrucción de ingreso (Métrica N° y porcentaje de beneficiarios potenciales)</li>
+<li>Dimensión laboral:actividad laboral al ingreso (Métrica N° y porcentaje de beneficiarios potenciales)</li>
+<li>Dimensión geográfica: región (Métrica N° y porcetnaje de beneficiarios potenciales, N° y porcentaje de beneficiarios de benediciarios efectivos y Tasa de cobertura de programas educativos en contexto de encierro)</li>
+</ul>
+<p>A continuación, se presenta el análisis que se desprende de las mencionadas métricas y dimensiones.</p>
+</section>
+<section id="análisis" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="análisis"><span class="header-section-number">7</span> Análisis</h2>
+</section>
+<section id="limitaciones-y-consideraciones-éticas" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="limitaciones-y-consideraciones-éticas"><span class="header-section-number">8</span> Limitaciones y consideraciones éticas</h2>
+<section id="limitaciones" class="level3 unnumbered" data-number="8.1">
+
 
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8.1 Limitaciones</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-unknown" class="csl-entry" role="listitem">
 Granger, Brian, y Fernando Perez. 2021. <span>«Jupyter: Thinking and Storytelling with Code and Data»</span>. <a href="https://doi.org/10.22541/au.161298309.98344404/v3">https://doi.org/10.22541/au.161298309.98344404/v3</a>.
 </div>
