@@ -83,7 +83,7 @@ La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomenta
 
 ## Componentes clave de la arquitectura de datos
 
-El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos, particularmente en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
+El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
 
 ### Extracción
 
@@ -95,9 +95,13 @@ Gendarmería de Chile: <https://www.gendarmeria.gob.cl/car_personas_pp.html>
 
 Centro de Estudios del MINEDUC: <https://datosabiertos.mineduc.cl/directorio-de-establecimientos-educacionales/>
 
-Las **bases de datos** a explorar consisten en:
+Las **bases de datos** a explorar son:
 
-![Bases de datos utilizadas en el proyecto](fig/BBDD_extracción.png){width="50%"}
+-   Estadística penitenciaria general
+
+-   Caracterización de personas privadas de libertad
+
+-   Directorio de establecimientos educacionales
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
