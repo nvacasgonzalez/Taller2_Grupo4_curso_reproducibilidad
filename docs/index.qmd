@@ -14,10 +14,10 @@ format:
     title-block-banner: "#ffffff"
     smooth-scroll: true
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     toc-location: right
     number-sections: true
-    number-depth: 3
+    number-depth: 4
     code-fold: true
     bibliography: ref.bib
     theme: cosmo
@@ -63,11 +63,41 @@ De este modo se vuelve crucial levantar antecedentes sobre la potencial poblaci�
 
 ### La educación como factor de reinserción
 
-En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión (Olivares, 2015).
+En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión [@Olivares2015ReinsercinSE].
 
-El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia (Scarfó & Castro, 2016). No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno (Sanhueza & Pérez, 2017).
+El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia [@Scarfó_Castro_2017]. No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno [@SANHUEZA2017].
 
-## Running Code
+### Ciencia abierta para la toma de decisiones informada y la diversidad de miradas.
+
+El presente proyecto se rige bajo los principios que sustentan la ciencia abierta, con particular énfasis en:
+
+-   **Accesibilidad** sin restricciones y **disponibilidad** de los datos utilizados en formato legible, manipulable y reutilizable [@kimball2002data].
+
+-   Posibilidad de **reproducibilidad y replicabilidad** mediante de la facilitación de los códigos, la metodología y los protocolos utilizados [@Wilson2016GoodEP].
+
+-   **Transparecia** en la toma de decisiones detrás del procesamiento y análisis de los datos [@unknown].
+
+-   **Sostenibilidad** a través del uso de un repositorio que garantice su preservación y disponibilidad a futuro.
+
+La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomentando políticas públicas más efectivas [@10.1007/978-981-13-0761-4_40]para la educación de personas privadas de libertad. En un área temática donde, además, es fundamental generar datos de calidad, al alcance de cualquier entidad adminsitrativa, científica o comunitaria para su discusión y enriquecimiento desde distintos puntos de vista.
+
+## Componentes clave de la arquitectura de datos
+
+El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos, particularmente en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
+
+### Extracción
+
+Para la extracción de datos se utilizaron las siguientes **fuentes de información**:
+
+Gendarmería de Chile: <https://www.gendarmeria.gob.cl/est_general.html>
+
+Gendarmería de Chile: <https://www.gendarmeria.gob.cl/car_personas_pp.html>
+
+Centro de Estudios del MINEDUC: <https://datosabiertos.mineduc.cl/directorio-de-establecimientos-educacionales/>
+
+Las bases de datos a explorar consisten en:
+
+![](fig/BBDD_extracción.png){fig-align="center"}
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 

@@ -56,7 +56,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
@@ -119,16 +139,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#antecedentes-contextuales" id="toc-antecedentes-contextuales" class="nav-link active" data-scroll-target="#antecedentes-contextuales"><span class="header-section-number">1</span> Antecedentes contextuales</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#nuevas-bases-curriculares-para-la-educación-de-personas-jóvenes-y-adultas-2024" id="toc-nuevas-bases-curriculares-para-la-educación-de-personas-jóvenes-y-adultas-2024" class="nav-link" data-scroll-target="#nuevas-bases-curriculares-para-la-educación-de-personas-jóvenes-y-adultas-2024"><span class="header-section-number">1.1</span> Nuevas Bases Curriculares para la Educación de Personas Jóvenes y Adultas (2024)</a></li>
   <li><a href="#impacto-sobre-la-educación-de-adultos" id="toc-impacto-sobre-la-educación-de-adultos" class="nav-link" data-scroll-target="#impacto-sobre-la-educación-de-adultos"><span class="header-section-number">1.2</span> Impacto sobre la educación de adultos</a></li>
   </ul></li>
   <li><a href="#objetivos" id="toc-objetivos" class="nav-link" data-scroll-target="#objetivos"><span class="header-section-number">2</span> Objetivos</a></li>
   <li><a href="#relevancia-del-estudio-exploratorio" id="toc-relevancia-del-estudio-exploratorio" class="nav-link" data-scroll-target="#relevancia-del-estudio-exploratorio"><span class="header-section-number">3</span> Relevancia del estudio exploratorio</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#la-educación-como-factor-de-reinserción" id="toc-la-educación-como-factor-de-reinserción" class="nav-link" data-scroll-target="#la-educación-como-factor-de-reinserción"><span class="header-section-number">3.1</span> La educación como factor de reinserción</a></li>
+  <li><a href="#ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas." id="toc-ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas." class="nav-link" data-scroll-target="#ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas."><span class="header-section-number">3.2</span> Ciencia abierta para la toma de decisiones informada y la diversidad de miradas.</a></li>
   </ul></li>
-  <li><a href="#running-code" id="toc-running-code" class="nav-link" data-scroll-target="#running-code"><span class="header-section-number">4</span> Running Code</a></li>
+  <li><a href="#componentes-clave-de-la-arquitectura-de-datos" id="toc-componentes-clave-de-la-arquitectura-de-datos" class="nav-link" data-scroll-target="#componentes-clave-de-la-arquitectura-de-datos"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos</a>
+  <ul>
+  <li><a href="#extracción" id="toc-extracción" class="nav-link" data-scroll-target="#extracción"><span class="header-section-number">4.1</span> Extracción</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -166,12 +190,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3" class="anchored" data-anchor-id="relevancia-del-estudio-exploratorio"><span class="header-section-number">3</span> Relevancia del estudio exploratorio</h2>
 <section id="la-educación-como-factor-de-reinserción" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="la-educación-como-factor-de-reinserción"><span class="header-section-number">3.1</span> La educación como factor de reinserción</h3>
-<p>En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión (Olivares, 2015).</p>
-<p>El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia (Scarfó &amp; Castro, 2016). No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno (Sanhueza &amp; Pérez, 2017).</p>
+<p>En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión <span class="citation" data-cites="Olivares2015ReinsercinSE">(<a href="#ref-Olivares2015ReinsercinSE" role="doc-biblioref">Olivares 2015</a>)</span>.</p>
+<p>El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia <span class="citation" data-cites="Scarfó_Castro_2017">(<a href="#ref-Scarfó_Castro_2017" role="doc-biblioref">Scarfó y Castro 2017</a>)</span>. No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno <span class="citation" data-cites="SANHUEZA2017">(<a href="#ref-SANHUEZA2017" role="doc-biblioref">Sanhueza 2017</a>)</span>.</p>
+</section>
+<section id="ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas." class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="ciencia-abierta-para-la-toma-de-decisiones-informada-y-la-diversidad-de-miradas."><span class="header-section-number">3.2</span> Ciencia abierta para la toma de decisiones informada y la diversidad de miradas.</h3>
+<p>El presente proyecto se rige bajo los principios que sustentan la ciencia abierta, con particular énfasis en:</p>
+<ul>
+<li><p><strong>Accesibilidad</strong> sin restricciones y <strong>disponibilidad</strong> de los datos utilizados en formato legible, manipulable y reutilizable <span class="citation" data-cites="kimball2002data">(<a href="#ref-kimball2002data" role="doc-biblioref">Kimball y Ross 2002</a>)</span>.</p></li>
+<li><p>Posibilidad de <strong>reproducibilidad y replicabilidad</strong> mediante de la facilitación de los códigos, la metodología y los protocolos utilizados <span class="citation" data-cites="Wilson2016GoodEP">(<a href="#ref-Wilson2016GoodEP" role="doc-biblioref">Wilson et&nbsp;al. 2016</a>)</span>.</p></li>
+<li><p><strong>Transparecia</strong> en la toma de decisiones detrás del procesamiento y análisis de los datos <span class="citation" data-cites="unknown">(<a href="#ref-unknown" role="doc-biblioref">Granger y Perez 2021</a>)</span>.</p></li>
+<li><p><strong>Sostenibilidad</strong> a través del uso de un repositorio que garantice su preservación y disponibilidad a futuro.</p></li>
+</ul>
+<p>La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomentando políticas públicas más efectivas <span class="citation" data-cites="10.1007/978-981-13-0761-4_40">(<a href="#ref-10.1007/978-981-13-0761-4_40" role="doc-biblioref">Kaur y Kaur 2019</a>)</span>para la educación de personas privadas de libertad. En un área temática donde, además, es fundamental generar datos de calidad, al alcance de cualquier entidad adminsitrativa, científica o comunitaria para su discusión y enriquecimiento desde distintos puntos de vista.</p>
 </section>
 </section>
-<section id="running-code" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="running-code"><span class="header-section-number">4</span> Running Code</h2>
+<section id="componentes-clave-de-la-arquitectura-de-datos" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="componentes-clave-de-la-arquitectura-de-datos"><span class="header-section-number">4</span> Componentes clave de la arquitectura de datos</h2>
+<p>El presente proyectos se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos, particularmente en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:</p>
+<section id="extracción" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="extracción"><span class="header-section-number">4.1</span> Extracción</h3>
+<p>Para la extracción de datos se utilizaron las siguientes <strong>fuentes de información</strong>:</p>
+<p>Gendarmería de Chile: <a href="https://www.gendarmeria.gob.cl/est_general.html" class="uri">https://www.gendarmeria.gob.cl/est_general.html</a></p>
+<p>Gendarmería de Chile: <a href="https://www.gendarmeria.gob.cl/car_personas_pp.html" class="uri">https://www.gendarmeria.gob.cl/car_personas_pp.html</a></p>
+<p>Centro de Estudios del MINEDUC: <a href="https://datosabiertos.mineduc.cl/directorio-de-establecimientos-educacionales/" class="uri">https://datosabiertos.mineduc.cl/directorio-de-establecimientos-educacionales/</a></p>
+<p>Las bases de datos a explorar consisten en:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/BBDD_extracción.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
 <p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
 <div class="cell">
 <details class="code-fold">
@@ -189,9 +237,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+
+</section>
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-unknown" class="csl-entry" role="listitem">
+Granger, Brian, y Fernando Perez. 2021. <span>«Jupyter: Thinking and Storytelling with Code and Data»</span>. <a href="https://doi.org/10.22541/au.161298309.98344404/v3">https://doi.org/10.22541/au.161298309.98344404/v3</a>.
+</div>
+<div id="ref-10.1007/978-981-13-0761-4_40" class="csl-entry" role="listitem">
+Kaur, Harkiran, y Gursimran Kaur. 2019. <span>«Comprehensive Survey of OLAP Models»</span>. En <em>Harmony Search and Nature Inspired Optimization Algorithms</em>, editado por Neha Yadav, Anupam Yadav, Jagdish Chand Bansal, Kusum Deep, y Joong Hoon Kim, 415-22. Singapore: Springer Singapore.
+</div>
+<div id="ref-kimball2002data" class="csl-entry" role="listitem">
+Kimball, R., y M. Ross. 2002. <em>The Data Warehouse Toolkit: The Complete Guide to Dimensional Modeling</em>. Data warehouse toolkit classics. Wiley. <a href="https://books.google.cl/books?id=2OCbq8Azdm8C">https://books.google.cl/books?id=2OCbq8Azdm8C</a>.
+</div>
+<div id="ref-Olivares2015ReinsercinSE" class="csl-entry" role="listitem">
+Olivares, Guillermo Sanhueza. 2015. <span>«Reinserci<span>ó</span>n social: el desempe<span>ñ</span>o moral de las c<span>á</span>rceles en Chile»</span>. En. <a href="https://api.semanticscholar.org/CorpusID:192965337">https://api.semanticscholar.org/CorpusID:192965337</a>.
+</div>
+<div id="ref-SANHUEZA2017" class="csl-entry" role="listitem">
+Sanhueza, Francisca, Guillermo Enrique AND PÃ. 2017. <span>«<span>CÃ!‘rceles concesionadas en Chile: evidencia empÃrica y perspectivas futuras a 10 aÃde su creaciÃ</span>»</span>. <em><span>PolÃtica criminal</span></em> 12 (diciembre): 1066-84. <a href="http://www.scielo.cl/scielo.php?script=sci_arttext&amp;pid=S0718-33992017000201066&amp;nrm=iso">http://www.scielo.cl/scielo.php?script=sci_arttext&amp;pid=S0718-33992017000201066&amp;nrm=iso</a>.
+</div>
+<div id="ref-Scarfó_Castro_2017" class="csl-entry" role="listitem">
+Scarfó, Francisco José, y Juan Castro. 2017. <span>«Estado, educación y cárceles»</span>. <em>Anales de la Facultad de Ciencias Juridicas y Sociales de la Universidad Nacional de La Plata</em> 13 (46). <a href="https://revistas.unlp.edu.ar/RevistaAnalesJursoc/article/view/4014">https://revistas.unlp.edu.ar/RevistaAnalesJursoc/article/view/4014</a>.
+</div>
+<div id="ref-Wilson2016GoodEP" class="csl-entry" role="listitem">
+Wilson, Greg, Jennifer Bryan, Karen A. Cranston, Justin Kitzes, Lex Nederbragt, y Tracy K. Teal. 2016. <span>«Good enough practices in scientific computing»</span>. <em>PLoS Computational Biology</em> 13. <a href="https://api.semanticscholar.org/CorpusID:744333">https://api.semanticscholar.org/CorpusID:744333</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
