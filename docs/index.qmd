@@ -14,10 +14,10 @@ format:
     title-block-banner: "#ffffff"
     smooth-scroll: true
     toc: true
-    toc-depth: 4
+    toc-depth: 3
     toc-location: right
     number-sections: true
-    number-depth: 4
+    number-depth: 3
     code-fold: true
     bibliography: ref.bib
     theme: cosmo
@@ -32,6 +32,8 @@ execute:
 ---
 
 <img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
+
+ 
 
 ## Antecedentes contextuales
 
