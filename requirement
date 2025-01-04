@@ -1,0 +1,27 @@
+Para el presente proyecto se utilizarán los siguientes paquetes: 
+
+Paquetes para Tablas y Visualización de Datos
+
+kableExtra: Extiende la funcionalidad de `knitr::kable()`, permitiendo crear tablas avanzadas y personalizadas para documentos HTML, PDF y LaTeX.
+
+DT: Proporciona una interfaz para crear tablas interactivas en R Markdown, con opciones de búsqueda, clasificación y exportación.
+
+table1: Genera tablas de resumen descriptivo para reportar estadísticas de manera clara y profesional en investigaciones científicas.
+
+Paquetes para Análisis y Manejo de Datos
+
+reticulate: Permite la integración entre R y Python, facilitando la ejecución de scripts y funciones de Python dentro de un entorno R.
+
+gapminder: Contiene un conjunto de datos históricos de desarrollo humano, ideal para ejercicios de análisis y visualización de datos.
+
+tidyverse: Un conjunto de paquetes esenciales para la manipulación, limpieza y visualización de datos en R, incluyendo `dplyr`, `ggplot2`, `tidyr`, `readr`, entre otros.
+
+Paquetes para Visualización Gráfica y Mapas
+
+plotly: Facilita la creación de gráficos interactivos, especialmente para la web, compatibles con `ggplot2`.
+
+maps: Proporciona mapas base para crear visualizaciones geográficas simples en R.
+
+sf: Maneja datos espaciales, permitiendo operaciones GIS como transformación, consulta y análisis espacial.
+
+tmap: Crea mapas temáticos de alta calidad y visualizaciones interactivas basadas en datos espaciales.

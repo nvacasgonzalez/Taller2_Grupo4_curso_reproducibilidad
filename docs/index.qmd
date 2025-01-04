@@ -33,7 +33,47 @@ execute:
 
 <img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
 
- 
+```{r}
+rm(list = ls())
+
+
+# Función para instalar y cargar paquetes si no están instalados
+
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    tryCatch({
+      install.packages(package, dependencies = TRUE)
+      library(package, character.only = TRUE)
+    }, error = function(e) {
+      message(paste("Error al instalar el paquete:", package))
+    })
+  }
+}
+
+# Lista de paquetes necesarios
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder",
+              "latex2exp", "tidyverse", "plotly", "maps", "sf", "tmap", 
+              "rio", "readxl", "DiagrammeR")
+
+
+# Cargar paquetes sin mostrar mensajes en la consola
+invisible(capture.output(lapply(packages, install_and_load)))
+
+if(!require(renv)){install.packages("renv")}
+library(renv)
+
+
+# Inicializar renv solo si no ha sido inicializado previamente
+if (!dir.exists("renv")) {
+  renv::init()
+}
+
+#
+renv::restore()
+
+renv::snapshot()
+```
+
 
 ## Antecedentes contextuales
 
@@ -140,6 +180,8 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 
 ## Análisis
 
+Para las descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
+
 ## Limitaciones y consideraciones éticas
 
 ### Limitaciones
@@ -148,7 +190,7 @@ La garantía de anonimato bajo la cual se generan y publican las bases de datos 
 
 -   la ausencia de la variable “establecimiento” en la base de datos que caracteriza a las personas “atendidas” por Gendarmería
 
--    la clasificación del tipo de establecimiento educativo
+-   la clasificación del tipo de establecimiento educativo
 
 Adionalmente, durante la exploración del las bases de datos contempladas se detectaron inconsistencias en las variables “instrucción de ingreso”, “instrucción actual” imposibilitando el análisis de efectividad de los programas educativos.
 
@@ -158,4 +200,4 @@ Por último, las bases de datos de Gendarmería posee un glosario asociado. No o
 
 El presente análisis debe ser complementado con literatura acerca de las barreras de acceso a la educación dentro de los centros penitenciarios. En este sentido, la cobertura educativa debe ser evaluada no solo desde la cantidad de programas y matricula disponibles, sino también en términos de calidad y accesibilidad para toda la población carcelaria.
 
-La presente propuesta adhiere a lo estipulado en las leyes 17.374 de secreto estadístico y 19.628 sobre protección de la vida privada. 
+La presente propuesta adhiere a lo estipulado en las leyes 17.374 de secreto estadístico y 19.628 sobre protección de la vida privada.
