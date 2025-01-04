@@ -1,31 +1,42 @@
 Para el presente proyecto se utilizarán los siguientes paquetes: 
 
+# Función para instalar y cargar paquetes si no están instalados
+
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    tryCatch({
+      install.packages(package, dependencies = TRUE)
+      library(package, character.only = TRUE)
+    }, error = function(e) {
+      message(paste("Error al instalar el paquete:", package))
+    })
+  }
+}
+
+
+# Lista de paquetes necesarios
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
+
+
+
+
 Paquetes para Tablas y Visualización de Datos
 
 kableExtra: Extiende la funcionalidad de `knitr::kable()`, permitiendo crear tablas avanzadas y personalizadas para documentos HTML, PDF y LaTeX.
-
 DT: Proporciona una interfaz para crear tablas interactivas en R Markdown, con opciones de búsqueda, clasificación y exportación.
-
 table1: Genera tablas de resumen descriptivo para reportar estadísticas de manera clara y profesional en investigaciones científicas.
-
 Paquetes para Análisis y Manejo de Datos
-
 reticulate: Permite la integración entre R y Python, facilitando la ejecución de scripts y funciones de Python dentro de un entorno R.
-
 gapminder: Contiene un conjunto de datos históricos de desarrollo humano, ideal para ejercicios de análisis y visualización de datos.
-
 tidyverse: Un conjunto de paquetes esenciales para la manipulación, limpieza y visualización de datos en R, incluyendo `dplyr`, `ggplot2`, `tidyr`, `readr`, entre otros.
+
 
 Paquetes para Visualización Gráfica y Mapas
 
 plotly: Facilita la creación de gráficos interactivos, especialmente para la web, compatibles con `ggplot2`.
-
 maps: Proporciona mapas base para crear visualizaciones geográficas simples en R.
-
 sf: Maneja datos espaciales, permitiendo operaciones GIS como transformación, consulta y análisis espacial.
-
 tmap: Crea mapas temáticos de alta calidad y visualizaciones interactivas basadas en datos espaciales.
-
 DiagrammeR: Paquete para la importación y lectura de las bases de datos manejadas: rio, readxl y reader
 Crear diagramas y gráficos de flujo, especialmente gráficos de tipo Diagrama de Flujo o Diagramas de Redes.
 
