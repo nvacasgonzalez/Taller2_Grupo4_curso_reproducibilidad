@@ -25,3 +25,9 @@ maps: Proporciona mapas base para crear visualizaciones geográficas simples en 
 sf: Maneja datos espaciales, permitiendo operaciones GIS como transformación, consulta y análisis espacial.
 
 tmap: Crea mapas temáticos de alta calidad y visualizaciones interactivas basadas en datos espaciales.
+
+DiagrammeR: Paquete para la importación y lectura de las bases de datos manejadas: rio, readxl y reader
+Crear diagramas y gráficos de flujo, especialmente gráficos de tipo Diagrama de Flujo o Diagramas de Redes.
+
+
+

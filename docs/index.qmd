@@ -34,8 +34,12 @@ execute:
 <img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
 
 ```{r}
-rm(list = ls())
+#rm(list = ls())
 
+if(!require(renv)){install.packages("renv")}
+library(renv)
+
+renv::restore()
 
 # Función para instalar y cargar paquetes si no están instalados
 
@@ -51,28 +55,30 @@ install_and_load <- function(package) {
 }
 
 # Lista de paquetes necesarios
-packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder",
-              "latex2exp", "tidyverse", "plotly", "maps", "sf", "tmap", 
-              "rio", "readxl", "DiagrammeR")
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
 
 
 # Cargar paquetes sin mostrar mensajes en la consola
 invisible(capture.output(lapply(packages, install_and_load)))
 
-if(!require(renv)){install.packages("renv")}
-library(renv)
 
+```
 
-# Inicializar renv solo si no ha sido inicializado previamente
-if (!dir.exists("renv")) {
-  renv::init()
+```{css}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
 }
 
-#
-renv::restore()
+h1 {
+  color: #333333;
+}
 
-renv::snapshot()
+p {
+  text-align: justify;
+}
 ```
+
 
 
 ## Antecedentes contextuales
