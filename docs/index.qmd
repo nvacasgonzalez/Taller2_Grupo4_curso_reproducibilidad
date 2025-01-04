@@ -166,7 +166,7 @@ invisible(gc())
 
 if(!require(renv)){install.packages("renv")}
 
-#La función: renv::init() fue ejecutada en la consola
+#La función: renv::init() y renv:: snapshot fueron ejecutadas en la consola
 
 # No obstante, prevalecen problemas en la sincronización de renv y renv.lock por lo que se introduce el siguiente código: 
 
