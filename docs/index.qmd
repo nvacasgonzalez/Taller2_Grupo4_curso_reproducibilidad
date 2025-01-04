@@ -39,6 +39,10 @@ execute:
 if(!require(renv)){install.packages("renv")}
 library(renv)
 
+#Las funciones : renv::init() y renv::snapshot fueron ejecutadas en la consola
+
+# No obstante, prevalecen problemas en la sincronización de renv y renv.lock por lo que se introdujo el siguiente código: 
+
 renv::restore()
 
 # Función para instalar y cargar paquetes si no están instalados
@@ -57,10 +61,8 @@ install_and_load <- function(package) {
 # Lista de paquetes necesarios
 packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
 
-
 # Cargar paquetes sin mostrar mensajes en la consola
 invisible(capture.output(lapply(packages, install_and_load)))
-
 
 ```
 
