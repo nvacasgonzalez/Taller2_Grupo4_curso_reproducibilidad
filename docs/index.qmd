@@ -17,6 +17,7 @@ format:
     toc-depth: 3
     toc-location: right
     number-sections: true
+    df-print: paged
     number-depth: 3
     code-fold: true
     bibliography: ref.bib
@@ -261,7 +262,7 @@ entidad_establecimientos_penitenciarios <- est_general_20241130 %>%
 
 ```
 
-```{r echo=TRUE, results="hide"}
+```{r }
 #ENTIDAD CENTRO EDUCATIVO. 
 entidad_centro_educativo <- X20240912_Directorio_Oficial_EE_2024_20240430_WEB[, c(
   "RBD",                  
@@ -347,17 +348,19 @@ Las metricas diseñadas en función de los objetivos específicos de la porpuest
 
 -   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos) [^1]
 
-[^1]: Se considerarán beneficiarios potenciales a aquellas personas provadas de libertad con condena dictada y recluidas en un régimen de 24h.
+[^1]: Se considerarán beneficiarios potenciales a aquellas personas privadas de libertad con el estatus de condenadas y recluidas en un régimen de 24h.
 
 <!-- -->
 
 -   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro) [^2]
 
-[^2]: Se considerarán beneficiarios efectivos al n° total de personas matriculadas por centro educativo en contexto de encierro
+[^2]: Se considerarán beneficiarios efectivos a las personas matriculadas en algún centro educativo en contexto de encierro.
 
 <!-- -->
 
--   Tasa de cobertura de programas deducativos en contexto de encierro
+-   Tasa de cobertura de programas educativos en contexto de encierro: $$
+    \text{Tasa de cobertura} = \frac{\text{N° beneficiarios efectivos}}{\text{N° beneficiarios potenciales}} \times 100
+    $$
 
 Y las dimensiones asociadas a dichas metricas son:
 
@@ -371,6 +374,48 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 ## Análisis
 
 Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
+
+```{r}
+#OBTENER BENEFICIARIOS POR REGIÓN Y EL PORCENTAJE
+beneficiarios_por_region <- entidad_beneficiarios_potenciales %>%
+  group_by(region) %>%
+  summarise(total_beneficiarios = sum(atendidos, na.rm = TRUE)) %>%
+  mutate(porcentaje = format(round((total_beneficiarios / sum(total_beneficiarios) * 100), 2), nsmall = 2))
+
+# Crear tabla bien formateada
+
+beneficiarios_por_region <- beneficiarios_por_region %>%
+  mutate(across(where(is.character), ~ iconv(.x, from = "latin1", to = "UTF-8")))
+
+
+beneficiarios_por_region %>%
+  kbl(caption = "Beneficiarios potenciales por región", format = "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  column_spec(2:ncol(beneficiarios_por_region), extra_css = "text-align: center;")
+
+
+```
+
+```{r echo=TRUE, results="hide"}
+# TRAMO DE EDAD BENEFICIARIOS
+
+# Definir el orden de los tramos de edad
+orden_tramos <- c("18-19", "20-24", "25-29", "30-34", "35-39", "40-44", 
+                  "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", 
+                  "75-79", "80-84", "85-89", "90-94")
+
+# Convertir la variable 'tramo_edad' a factor y aplicar el orden especificado
+beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
+  mutate(tramo_edad = factor(tramo_edad, levels = orden_tramos)) %>%  # Convertir a factor con el orden definido
+  group_by(tramo_edad) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  arrange(tramo_edad) %>%  # Ordenar según el factor
+  mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
+
+
+
+```
+
 
 ## Limitaciones y consideraciones éticas
 

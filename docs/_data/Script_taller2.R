@@ -1,15 +1,47 @@
-library(readxl)
+
+rm(list = ls())
+
+invisible(gc())
+
+
+
+# Función para instalar y cargar paquetes si no están instalados
+
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    tryCatch({
+      install.packages(package, dependencies = TRUE)
+      library(package, character.only = TRUE)
+    }, error = function(e) {
+      message(paste("Error al instalar el paquete:", package))
+    })
+  }
+}
+
+# Lista de paquetes necesarios
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR", "ggplot2")
+
+if(!require(tmap)){install.packages("tmap")}
+
+if(!require(dplyr)){install.packages("dplyr")}
+
+
+
+# Importación de bases de datos a utilizar 
+
+est_general_20241130 <- read_csv("C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/_data/est_general_20241130.csv")
+View(est_general_20241130)
+
 library(readr)
-library(tidyverse)
-install.packages("DiagrammeR")
-library(DiagrammeR)
+caracterizacion_20241130 <- read_delim("C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/_data/caracterizacion_20241130.csv", 
+                                       delim = "\t", escape_double = FALSE, 
+                                       trim_ws = TRUE)
+View(caracterizacion_20241130)
 
-
-est_general_20241130 <- read_csv("est_general_20241130.csv")
-caracterizacion_20241130 <- read_csv("caracterizacion_20241130.csv")
-X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- read_delim("20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv", 
+library(readr)
+X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- read_delim("C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv", 
                                                                 delim = ";", escape_double = FALSE, trim_ws = TRUE)
- 
+View(X20240912_Directorio_Oficial_EE_2024_20240430_WEB)
 
 #CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
 
@@ -24,17 +56,17 @@ entidad_beneficiarios_potenciales <- caracterizacion_20241130 %>%
          beneficio_intrapenitenciario, instruccion_ingreso, sexo)
 
 #VERIFICACIÓN DE INCONSISTENCIAS. SE COMPRUEBA QUE TODOS ESTÁN BIEN. 
-unique(entidad_atendidos$procedencia)
-unique(entidad_atendidos$nacionalidad)
-unique(entidad_atendidos$estado_civil)
-unique(entidad_atendidos$etnia)
-unique(entidad_atendidos$tramo_edad)
-unique(entidad_atendidos$calidad_procesal)
-unique(entidad_atendidos$tipo_poblacion)
-unique(entidad_atendidos$actividad_laboral_ingreso)
-unique(entidad_atendidos$beneficio_intrapenitenciario)
-unique(entidad_atendidos$instruccion_ingreso)
-unique(entidad_atendidos$sexo)
+unique(entidad_beneficiarios_potenciales$procedencia)
+unique(entidad_beneficiarios_potenciales$nacionalidad)
+unique(entidad_beneficiarios_potenciales$estado_civil)
+unique(entidad_beneficiarios_potenciales$etnia)
+unique(entidad_beneficiarios_potenciales$tramo_edad)
+unique(entidad_beneficiarios_potenciales$calidad_procesal)
+unique(entidad_beneficiarios_potenciales$tipo_poblacion)
+unique(entidad_beneficiarios_potenciales$actividad_laboral_ingreso)
+unique(entidad_beneficiarios_potenciales$beneficio_intrapenitenciario)
+unique(entidad_beneficiarios_potenciales$instruccion_ingreso)
+unique(entidad_beneficiarios_potenciales$sexo)
 
 #FILTRAR POR POBLACIÓN BENEFICIARIA CONDENADA, RECULUIDA 24HRS, Y CON CIERTOS NIVELES EDUCATIVOS
 unique(entidad_beneficiarios_potenciales$calidad_procesal)
@@ -126,16 +158,27 @@ colnames(entidad_centro_educativo) <- c(
   "Dependencia_establecimiento",  # COD_DEPE2
   "Indicador_ruralidad",  # RURAL_RBD
   "Latitud_establecimiento",  # LATITUD
-  "Longitud_establecimiento"  # LONGITUD
+  "Longitud_establecimiento",  # LONGITUD
+  "Matricula_total" # MAT_TOTAL
 )
 
 #NORMALIZAR COLUMNA DE REGION CON MISMOS NOMBRES DE LAS OTRAS ENTIDADES.
-unique(entidad_centro_educativo$region)
-abreviaturas <- c("AYP", "TPCA", "ANTOF", "ATCMA", "COQ", "VALPO", "RM", 
-                  "LGBO", "MAULE", "NUBLE", "BBIO", "ARAUC", "RIOS", "LAGOS", 
-                  "AYSEN", "MAG")
 
-entidad_centro_educativo$NOM_REG_RBD_A <- regiones[match(entidad_centro_educativo$NOM_REG_RBD_A, abreviaturas)]
+# Vector con los nombres de las regiones estándar
+regiones_estandar <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+                       "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+                       "Región Metropolitana de Santiago", "Región de O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+                       "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", 
+                       "Región de Magallanes y la Antártica Chilena")
+
+# Normalizar los nombres de la variable región en el dataframe
+entidad_centro_educativo$region_normalizada <- tolower(trimws(entidad_centro_educativo$region))
+
+# Definir el vector con abreviaturas 
+abreviaturas <- c("ayp", "tpca", "antof", "atcma", "coq", "valpo", "rm", "lgbo", "maule", "nuble", "bbio", "arauc", "rios", "lagos", "aysen", "mag")
+
+# Usar match() para mapear las regiones normalizadas a las estándar
+entidad_centro_educativo$region_estandarizada <- regiones_estandar[match(entidad_centro_educativo$region_normalizada, abreviaturas)]
 
 
 #FILTRAR POR ESTABLECIMIENTOS EDUCACIONALES QUE CUMPLEN CON CARACTERÍSITCAS QUE SE NECESITAN
@@ -158,11 +201,12 @@ centros_educativos <- c(
 )
 
 # Filtrar la base de datos entidad_centro_educativo por los nombres de centros educativos
-entidad_centro_educativo_filtrado <- entidad_centro_educativo %>%
-  filter(NOM_RBD %in% centros_educativos)
+centros_filtrados <- entidad_centro_educativo %>%
+  filter(Nombre_centro_educativo %in% centros_educativos)
 
-
-
+# Filtrar centros educativos
+centros_filtrados <- entidad_centro_educativo %>%
+  filter(Nombre_centro_educativo %in% centros_educativos)
 
 
 
@@ -179,7 +223,9 @@ entidad_centro_educativo_filtrado <- entidad_centro_educativo %>%
 beneficiarios_por_region <- entidad_beneficiarios_potenciales %>%
   group_by(region) %>%
   summarise(total_beneficiarios = sum(atendidos, na.rm = TRUE)) %>%
-  mutate(porcentaje = (total_beneficiarios / sum(total_beneficiarios) * 100))
+  mutate(porcentaje = format(round((total_beneficiarios / sum(total_beneficiarios) * 100), 2), nsmall = 2))
+
+
 #Visualización
 ggplot(beneficiarios_por_region, aes(x = reorder(region, -total_beneficiarios), y = total_beneficiarios)) +
   geom_bar(stat = "identity", fill = "steelblue") +
@@ -191,7 +237,7 @@ ggplot(beneficiarios_por_region, aes(x = reorder(region, -total_beneficiarios), 
             hjust = -0.2, size = 3.5, color = "black")
 
 
-#TRAMO DE EDAD BENEFICIARIOS
+# TRAMO DE EDAD BENEFICIARIOS
 beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
   group_by(tramo_edad) %>%
   summarise(total = n()) %>%
