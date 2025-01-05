@@ -49,6 +49,44 @@ p {
 ```
 
 
+```{r}
+rm(list = ls())
+
+invisible(gc())
+
+
+if(!require(renv)){install.packages("renv")}
+
+#La función: renv::init() y renv:: snapshot fueron ejecutadas en la consola
+
+
+# Función para instalar y cargar paquetes si no están instalados
+
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    tryCatch({
+      install.packages(package, dependencies = TRUE)
+      library(package, character.only = TRUE)
+    }, error = function(e) {
+      message(paste("Error al instalar el paquete:", package))
+    })
+  }
+}
+
+# Lista de paquetes necesarios
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
+
+if(!require(tmap)){install.packages("tmap")}
+
+if(!require(dplyr)){install.packages("dplyr")}
+
+
+# Cargar paquetes sin mostrar mensajes en la consola
+invisible(capture.output(lapply(packages, install_and_load)))
+
+```
+
+
 
 ## Antecedentes contextuales
 
@@ -120,9 +158,20 @@ Las **bases de datos** a explorar son:
 
 -   Directorio de establecimientos educacionales
 
+```{r}
+#Importación de bases de datos a utilizar 
+est_general_20241130 <- rio::import("_data/est_general_20241130.csv")
+caracterizacion_20241130 <- rio::import("_data/caracterizacion_20241130.csv")
+X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv")
+
+
+```
+
 ### Trasnformación (a través de R)
 
 ![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png)
+
+
 
 ### Carga (mediante GITHUB)
 
@@ -136,9 +185,179 @@ Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter 
 
 ![](fig/Modelo_logico_conceptual.png)
 
+
+```{r echo=TRUE, results="hide"}
+#CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
+
+#PARA ELLO PRIMERO SE CREA UN ID.
+caracterizacion_20241130 <- caracterizacion_20241130 %>%
+  mutate(ID_beneficiarios_potenciales = paste0("ID_", row_number()))
+
+#AHORA SE CREA LA ENTIDAD.
+entidad_beneficiarios_potenciales <- caracterizacion_20241130 %>% 
+  select(ID_beneficiarios_potenciales, atendidos, region, procedencia,nacionalidad,  estado_civil,etnia, tramo_edad, calidad_procesal, tipo_poblacion, actividad_laboral_ingreso,
+         beneficio_intrapenitenciario, instruccion_ingreso, sexo)
+
+#VERIFICACIÓN DE INCONSISTENCIAS. SE COMPRUEBA QUE TODOS ESTÁN BIEN. 
+unique(entidad_beneficiarios_potenciales$procedencia)
+unique(entidad_beneficiarios_potenciales$nacionalidad)
+unique(entidad_beneficiarios_potenciales$estado_civil)
+unique(entidad_beneficiarios_potenciales$etnia)
+unique(entidad_beneficiarios_potenciales$tramo_edad)
+unique(entidad_beneficiarios_potenciales$calidad_procesal)
+unique(entidad_beneficiarios_potenciales$tipo_poblacion)
+unique(entidad_beneficiarios_potenciales$actividad_laboral_ingreso)
+unique(entidad_beneficiarios_potenciales$beneficio_intrapenitenciario)
+unique(entidad_beneficiarios_potenciales$instruccion_ingreso)
+unique(entidad_beneficiarios_potenciales$sexo)
+
+#FILTRAR POR POBLACIÓN BENEFICIARIA CONDENADA, RECULUIDA 24HRS, Y CON CIERTOS NIVELES EDUCATIVOS
+unique(entidad_beneficiarios_potenciales$calidad_procesal)
+entidad_beneficiarios_potenciales <- subset(entidad_beneficiarios_potenciales, calidad_procesal == "Condenado")
+
+unique(entidad_beneficiarios_potenciales$tipo_poblacion)
+entidad_beneficiarios_potenciales <- subset(entidad_beneficiarios_potenciales, tipo_poblacion == "Recluida 24 Hrs.")
+
+entidad_beneficiarios_potenciales <- entidad_beneficiarios_potenciales %>%
+  filter(instruccion_ingreso %in% c("Básica Completa", "Básica Incompleta", "Media Incompleta", "Sin Instrucción"))
+
+```
+
+```{r echo=TRUE, results="hide"}
+#SE CREA ENTIDAD DE REGION
+unique(caracterizacion_20241130$region)  
+
+regiones <- c(
+  "Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+  "Región Metropolitana de Santiago", "Región de O'Higgins", "Región del Maule", 
+  "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", 
+  "Región de Magallanes y la Antártica Chilena")
+
+numeros_region <- c(15, 1, 2, 3, 4, 5, 13, 6, 7, 16, 8, 9, 14, 10, 11, 12)
+
+entidad_region <- data.frame(
+  COD_REG_RBD = numeros_region,
+  region = regiones
+)
+
+
+```
+
+
+```{r echo=TRUE, results="hide" }
+# SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO
+
+#FILTRO PARA OBTENER SOLO LOS ESTABLECIMIENTOS PENITENCIARIOS QUE COINCIDEN CON LAS CARACTERÍSTICAS BUSCADAS
+unique(est_general_20241130$subsistema)
+unique(est_general_20241130$tipo_poblacion)
+unique(est_general_20241130$poblacion)
+
+est_general_20241130 <- est_general_20241130 %>%
+  filter (subsistema == "Subsistema Cerrado",
+          tipo_poblacion == "Cerrado 24 Horas",
+          poblacion == "Condenados (Privados de Libertad 24 Horas)")
+
+#CREAR ENTIDAD
+entidad_establecimientos_penitenciarios <- est_general_20241130 %>%
+  select(establecimiento, region) %>%
+  distinct(establecimiento, .keep_all = TRUE) %>%  
+  mutate(ID_establecimiento = paste0("ID_", row_number())) %>%  
+  select(ID_establecimiento, everything())
+
+```
+
+```{r echo=TRUE, results="hide"}
+#ENTIDAD CENTRO EDUCATIVO. 
+entidad_centro_educativo <- X20240912_Directorio_Oficial_EE_2024_20240430_WEB[, c(
+  "RBD",                  
+  "NOM_RBD",             
+  "COD_REG_RBD",           
+  "NOM_REG_RBD_A",         
+  "COD_PRO_RBD",           
+  "COD_COM_RBD",           
+  "NOM_COM_RBD",         
+  "COD_DEPROV_RBD",        
+  "NOM_DEPROV_RBD",        
+  "COD_DEPE2",           
+  "RURAL_RBD",            
+  "LATITUD",
+  "LONGITUD",
+  "MAT_TOTAL"
+)]
+ #CAMBIAR NOMBRE DE COLUMNAS  
+colnames(entidad_centro_educativo) <- c(
+  "ID_CentroEducativo",  # RBD
+  "Nombre_centro_educativo",  # NOM_RBD
+  "ID_Region",  # COD_REG_RBD
+  "region",  # NOM_REG_RBD_A
+  "Codigo_de_provincia",  # COD_PRO_RBD
+  "Codigo_oficial_comuna",  # COD_COM_RBD
+  "Nombre_comuna",  # NOM_COM_RBD
+  "Codigo_Dpto_Provincial_Educación",  # COD_DEPROV_RBD
+  "Nombre_Dpto_Provincial_Educación",  # NOM_DEPROV_RBD
+  "Dependencia_establecimiento",  # COD_DEPE2
+  "Indicador_ruralidad",  # RURAL_RBD
+  "Latitud_establecimiento",  # LATITUD
+  "Longitud_establecimiento",  # LONGITUD
+  "Matricula_total" # MAT_TOTAL
+)
+
+#NORMALIZAR COLUMNA DE REGION CON MISMOS NOMBRES DE LAS OTRAS ENTIDADES.
+
+# Vector con los nombres de las regiones estándar
+regiones_estandar <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+  "Región Metropolitana de Santiago", "Región de O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", 
+  "Región de Magallanes y la Antártica Chilena")
+
+# Normalizar los nombres de la variable región en el dataframe
+entidad_centro_educativo$region_normalizada <- tolower(trimws(entidad_centro_educativo$region))
+
+# Definir el vector con abreviaturas 
+abreviaturas <- c("ayp", "tpca", "antof", "atcma", "coq", "valpo", "rm", "lgbo", "maule", "nuble", "bbio", "arauc", "rios", "lagos", "aysen", "mag")
+
+# Usar match() para mapear las regiones normalizadas a las estándar
+entidad_centro_educativo$region_estandarizada <- regiones_estandar[match(entidad_centro_educativo$region_normalizada, abreviaturas)]
+
+
+#FILTRAR POR ESTABLECIMIENTOS EDUCACIONALES QUE CUMPLEN CON CARACTERÍSITCAS QUE SE NECESITAN
+centros_educativos <- c(
+  "LICEO REBECA OLIVARES BENITEZ", "LICEO TECNICO PROF. DE ADULTOS PUKARA", "LICEO DE ADULTOS HUMBERTO DÍAZ CASANUEVA",
+  "LICEO DE ADULTOS HERBERT VARGAS WALLIS",
+  "LICEO SANTA MARIA EUFRASIA", "LICEO C.E.I.A. JOSE ALEJANDRO SORIA VARAS",
+  "ANEXO LICEO NOCTURNO", "LICEO DOMINGO LATRILLE LASTAUNOU",
+  "ESCUELA PROFESOR LUIS GARRIDO PÁVEZ",
+  "ESCUELA ANDRÉS BELLO", "ESCUELA JOSÉ DOMINGO SAAVEDRA",
+  "C.E.I.A. DR. OSVALDO ROJAS G",
+  "COLEGIO JUAN LUIS VIVES", "COLEGIO ANTUHUE", 
+  "ESCUELA ESPECIAL DE ADULTOS F Nº 142", 
+  "COLEGIO JUAN LUIS VIVES", "COLEGIO DE ADULTOS PROFESOR MANUEL GUERRERO CEBALLOS", "ESCUELA ALAMEDA LINARES", 
+  "ESCUELA PROF.REMIGIO AGURTO FUENTES", "ESCUELA MARIANO LATORRE", "ESC.CAPLLAN JOSE LUIS LOPEZ CARRASCO", 
+  "ESCUELA SARGENTO PRIMERO CRISTIAN VENEGAS OJEDA", "COLEGIO NUEVOS HORIZONTES", "ESCUELA DE ADULTOS RIO SUR", 
+  "ESCCUELA MUNICIPAL PROFESOR DAVID FERNÁNDEZ PÉREZ", 
+  "LICEO BICENTENARIO CIENCIAS Y HUMANIDADES RBD 6223-5", "C.E.I.A. ANTONIO ACEVEDO HERNANDEZ",
+  "COLEGIO ANDINO"
+)
+
+# Filtrar centros educativos
+centros_filtrados <- entidad_centro_educativo %>%
+  filter(Nombre_centro_educativo %in% centros_educativos)
+
+```
+
+
+
+
+
+
+
+
 ## Metricas y dimensiones
 
-Las metricas diseñadas en función de los obejtivos específicos de la porpuesta son:
+Las metricas diseñadas en función de los objetivos específicos de la porpuesta son:
 
 -   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos)
 -   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro)
@@ -158,50 +377,8 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
 
 
-```{r}
-rm(list = ls())
-
-invisible(gc())
 
 
-if(!require(renv)){install.packages("renv")}
-
-#La función: renv::init() y renv:: snapshot fueron ejecutadas en la consola
-
-# No obstante, prevalecen problemas en la sincronización de renv y renv.lock por lo que se introduce el siguiente código: 
-
-
-# Función para instalar y cargar paquetes si no están instalados
-
-install_and_load <- function(package) {
-  if (!require(package, character.only = TRUE)) {
-    tryCatch({
-      install.packages(package, dependencies = TRUE)
-      library(package, character.only = TRUE)
-    }, error = function(e) {
-      message(paste("Error al instalar el paquete:", package))
-    })
-  }
-}
-
-# Lista de paquetes necesarios
-packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
-
-if(!require(tmap)){install.packages("tmap")}
-
-
-# Cargar paquetes sin mostrar mensajes en la consola
-invisible(capture.output(lapply(packages, install_and_load)))
-
-```
-
-
-```{r}
-#Importación de bases de datos a utilizar 
-est_general_20241130 <- rio::import("_data/est_general_20241130.csv")
-caracterizacion_20241130 <- rio::import("_data/caracterizacion_20241130.csv")
-X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv")
-```
 
 
 ## Limitaciones y consideraciones éticas

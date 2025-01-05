@@ -204,6 +204,44 @@ p {
 }
 </style>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(renv)){<span class="fu">install.packages</span>(<span class="st">"renv"</span>)}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#La función: renv::init() y renv:: snapshot fueron ejecutadas en la consola</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para instalar y cargar paquetes si no están instalados</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>install_and_load <span class="ot">&lt;-</span> <span class="cf">function</span>(package) {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tryCatch</span>({</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">install.packages</span>(package, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">"Error al instalar el paquete:"</span>, package))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista de paquetes necesarios</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"kableExtra"</span>, <span class="st">"DT"</span>, <span class="st">"table1"</span>, <span class="st">"reticulate"</span>, <span class="st">"gapminder"</span>, <span class="st">"latex2exp"</span>, <span class="st">"tidyverse"</span>, <span class="st">"plotly"</span>, <span class="st">"maps"</span>, <span class="st">"sf"</span>, <span class="st">"leaflet"</span>, <span class="st">"tmap"</span>, <span class="st">"rio"</span>, <span class="st">"readxl"</span>,<span class="st">"readr"</span>, <span class="st">"DiagrammeR"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(tmap)){<span class="fu">install.packages</span>(<span class="st">"tmap"</span>)}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(dplyr)){<span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)}</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar paquetes sin mostrar mensajes en la consola</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">capture.output</span>(<span class="fu">lapply</span>(packages, install_and_load)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="antecedentes-contextuales" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="antecedentes-contextuales"><span class="header-section-number">1</span> Antecedentes contextuales</h2>
 <section id="nuevas-bases-curriculares-para-la-educación-de-personas-jóvenes-y-adultas-2024" class="level3" data-number="1.1">
@@ -261,6 +299,15 @@ p {
 <li><p>Caracterización de personas privadas de libertad</p></li>
 <li><p>Directorio de establecimientos educacionales</p></li>
 </ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Importación de bases de datos a utilizar </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>est_general_20241130 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/est_general_20241130.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>caracterizacion_20241130 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/caracterizacion_20241130.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X20240912_Directorio_Oficial_EE_2024_20240430_WEB <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="trasnformación-a-través-de-r" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="trasnformación-a-través-de-r"><span class="header-section-number">4.2</span> Trasnformación (a través de R)</h3>
@@ -281,10 +328,174 @@ p {
 <section id="modelo-lógico-conceptual-de-la-propuesta" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="modelo-lógico-conceptual-de-la-propuesta"><span class="header-section-number">5</span> Modelo lógico-conceptual de la propuesta</h2>
 <p><img src="fig/Modelo_logico_conceptual.png" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PARA ELLO PRIMERO SE CREA UN ID.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>caracterizacion_20241130 <span class="ot">&lt;-</span> caracterizacion_20241130 <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ID_beneficiarios_potenciales =</span> <span class="fu">paste0</span>(<span class="st">"ID_"</span>, <span class="fu">row_number</span>()))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#AHORA SE CREA LA ENTIDAD.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>entidad_beneficiarios_potenciales <span class="ot">&lt;-</span> caracterizacion_20241130 <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID_beneficiarios_potenciales, atendidos, region, procedencia,nacionalidad,  estado_civil,etnia, tramo_edad, calidad_procesal, tipo_poblacion, actividad_laboral_ingreso,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>         beneficio_intrapenitenciario, instruccion_ingreso, sexo)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#VERIFICACIÓN DE INCONSISTENCIAS. SE COMPRUEBA QUE TODOS ESTÁN BIEN. </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>procedencia)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>nacionalidad)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>estado_civil)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>etnia)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>tramo_edad)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>calidad_procesal)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>tipo_poblacion)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>actividad_laboral_ingreso)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>beneficio_intrapenitenciario)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>instruccion_ingreso)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>sexo)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#FILTRAR POR POBLACIÓN BENEFICIARIA CONDENADA, RECULUIDA 24HRS, Y CON CIERTOS NIVELES EDUCATIVOS</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>calidad_procesal)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>entidad_beneficiarios_potenciales <span class="ot">&lt;-</span> <span class="fu">subset</span>(entidad_beneficiarios_potenciales, calidad_procesal <span class="sc">==</span> <span class="st">"Condenado"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(entidad_beneficiarios_potenciales<span class="sc">$</span>tipo_poblacion)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>entidad_beneficiarios_potenciales <span class="ot">&lt;-</span> <span class="fu">subset</span>(entidad_beneficiarios_potenciales, tipo_poblacion <span class="sc">==</span> <span class="st">"Recluida 24 Hrs."</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>entidad_beneficiarios_potenciales <span class="ot">&lt;-</span> entidad_beneficiarios_potenciales <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(instruccion_ingreso <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Básica Completa"</span>, <span class="st">"Básica Incompleta"</span>, <span class="st">"Media Incompleta"</span>, <span class="st">"Sin Instrucción"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#SE CREA ENTIDAD DE REGION</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(caracterizacion_20241130<span class="sc">$</span>region)  </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>regiones <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Arica y Parinacota"</span>, <span class="st">"Región de Tarapacá"</span>, <span class="st">"Región de Antofagasta"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Atacama"</span>, <span class="st">"Región de Coquimbo"</span>, <span class="st">"Región de Valparaíso"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región Metropolitana de Santiago"</span>, <span class="st">"Región de O'Higgins"</span>, <span class="st">"Región del Maule"</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Ñuble"</span>, <span class="st">"Región del Biobío"</span>, <span class="st">"Región de La Araucanía"</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Los Ríos"</span>, <span class="st">"Región de Los Lagos"</span>, <span class="st">"Región de Aysén"</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Magallanes y la Antártica Chilena"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>numeros_region <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">16</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>entidad_region <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">COD_REG_RBD =</span> numeros_region,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> regiones</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#FILTRO PARA OBTENER SOLO LOS ESTABLECIMIENTOS PENITENCIARIOS QUE COINCIDEN CON LAS CARACTERÍSTICAS BUSCADAS</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(est_general_20241130<span class="sc">$</span>subsistema)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(est_general_20241130<span class="sc">$</span>tipo_poblacion)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(est_general_20241130<span class="sc">$</span>poblacion)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>est_general_20241130 <span class="ot">&lt;-</span> est_general_20241130 <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span> (subsistema <span class="sc">==</span> <span class="st">"Subsistema Cerrado"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>          tipo_poblacion <span class="sc">==</span> <span class="st">"Cerrado 24 Horas"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>          poblacion <span class="sc">==</span> <span class="st">"Condenados (Privados de Libertad 24 Horas)"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#CREAR ENTIDAD</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>entidad_establecimientos_penitenciarios <span class="ot">&lt;-</span> est_general_20241130 <span class="sc">%&gt;%</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(establecimiento, region) <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(establecimiento, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ID_establecimiento =</span> <span class="fu">paste0</span>(<span class="st">"ID_"</span>, <span class="fu">row_number</span>())) <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID_establecimiento, <span class="fu">everything</span>())</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ENTIDAD CENTRO EDUCATIVO. </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>entidad_centro_educativo <span class="ot">&lt;-</span> X20240912_Directorio_Oficial_EE_2024_20240430_WEB[, <span class="fu">c</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RBD"</span>,                  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NOM_RBD"</span>,             </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COD_REG_RBD"</span>,           </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NOM_REG_RBD_A"</span>,         </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COD_PRO_RBD"</span>,           </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COD_COM_RBD"</span>,           </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NOM_COM_RBD"</span>,         </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COD_DEPROV_RBD"</span>,        </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NOM_DEPROV_RBD"</span>,        </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COD_DEPE2"</span>,           </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RURAL_RBD"</span>,            </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LATITUD"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LONGITUD"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MAT_TOTAL"</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a> <span class="co">#CAMBIAR NOMBRE DE COLUMNAS  </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(entidad_centro_educativo) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID_CentroEducativo"</span>,  <span class="co"># RBD</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Nombre_centro_educativo"</span>,  <span class="co"># NOM_RBD</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID_Region"</span>,  <span class="co"># COD_REG_RBD</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"region"</span>,  <span class="co"># NOM_REG_RBD_A</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Codigo_de_provincia"</span>,  <span class="co"># COD_PRO_RBD</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Codigo_oficial_comuna"</span>,  <span class="co"># COD_COM_RBD</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Nombre_comuna"</span>,  <span class="co"># NOM_COM_RBD</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Codigo_Dpto_Provincial_Educación"</span>,  <span class="co"># COD_DEPROV_RBD</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Nombre_Dpto_Provincial_Educación"</span>,  <span class="co"># NOM_DEPROV_RBD</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Dependencia_establecimiento"</span>,  <span class="co"># COD_DEPE2</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Indicador_ruralidad"</span>,  <span class="co"># RURAL_RBD</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Latitud_establecimiento"</span>,  <span class="co"># LATITUD</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Longitud_establecimiento"</span>,  <span class="co"># LONGITUD</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Matricula_total"</span> <span class="co"># MAT_TOTAL</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co">#NORMALIZAR COLUMNA DE REGION CON MISMOS NOMBRES DE LAS OTRAS ENTIDADES.</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con los nombres de las regiones estándar</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>regiones_estandar <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Región de Arica y Parinacota"</span>, <span class="st">"Región de Tarapacá"</span>, <span class="st">"Región de Antofagasta"</span>, </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Atacama"</span>, <span class="st">"Región de Coquimbo"</span>, <span class="st">"Región de Valparaíso"</span>, </span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región Metropolitana de Santiago"</span>, <span class="st">"Región de O'Higgins"</span>, <span class="st">"Región del Maule"</span>, <span class="st">"Región de Ñuble"</span>, <span class="st">"Región del Biobío"</span>, <span class="st">"Región de La Araucanía"</span>, </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Los Ríos"</span>, <span class="st">"Región de Los Lagos"</span>, <span class="st">"Región de Aysén"</span>, </span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Región de Magallanes y la Antártica Chilena"</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizar los nombres de la variable región en el dataframe</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>entidad_centro_educativo<span class="sc">$</span>region_normalizada <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">trimws</span>(entidad_centro_educativo<span class="sc">$</span>region))</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir el vector con abreviaturas </span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>abreviaturas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ayp"</span>, <span class="st">"tpca"</span>, <span class="st">"antof"</span>, <span class="st">"atcma"</span>, <span class="st">"coq"</span>, <span class="st">"valpo"</span>, <span class="st">"rm"</span>, <span class="st">"lgbo"</span>, <span class="st">"maule"</span>, <span class="st">"nuble"</span>, <span class="st">"bbio"</span>, <span class="st">"arauc"</span>, <span class="st">"rios"</span>, <span class="st">"lagos"</span>, <span class="st">"aysen"</span>, <span class="st">"mag"</span>)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar match() para mapear las regiones normalizadas a las estándar</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>entidad_centro_educativo<span class="sc">$</span>region_estandarizada <span class="ot">&lt;-</span> regiones_estandar[<span class="fu">match</span>(entidad_centro_educativo<span class="sc">$</span>region_normalizada, abreviaturas)]</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#FILTRAR POR ESTABLECIMIENTOS EDUCACIONALES QUE CUMPLEN CON CARACTERÍSITCAS QUE SE NECESITAN</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>centros_educativos <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LICEO REBECA OLIVARES BENITEZ"</span>, <span class="st">"LICEO TECNICO PROF. DE ADULTOS PUKARA"</span>, <span class="st">"LICEO DE ADULTOS HUMBERTO DÍAZ CASANUEVA"</span>,</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LICEO DE ADULTOS HERBERT VARGAS WALLIS"</span>,</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LICEO SANTA MARIA EUFRASIA"</span>, <span class="st">"LICEO C.E.I.A. JOSE ALEJANDRO SORIA VARAS"</span>,</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ANEXO LICEO NOCTURNO"</span>, <span class="st">"LICEO DOMINGO LATRILLE LASTAUNOU"</span>,</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCUELA PROFESOR LUIS GARRIDO PÁVEZ"</span>,</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCUELA ANDRÉS BELLO"</span>, <span class="st">"ESCUELA JOSÉ DOMINGO SAAVEDRA"</span>,</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  <span class="st">"C.E.I.A. DR. OSVALDO ROJAS G"</span>,</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COLEGIO JUAN LUIS VIVES"</span>, <span class="st">"COLEGIO ANTUHUE"</span>, </span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCUELA ESPECIAL DE ADULTOS F Nº 142"</span>, </span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COLEGIO JUAN LUIS VIVES"</span>, <span class="st">"COLEGIO DE ADULTOS PROFESOR MANUEL GUERRERO CEBALLOS"</span>, <span class="st">"ESCUELA ALAMEDA LINARES"</span>, </span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCUELA PROF.REMIGIO AGURTO FUENTES"</span>, <span class="st">"ESCUELA MARIANO LATORRE"</span>, <span class="st">"ESC.CAPLLAN JOSE LUIS LOPEZ CARRASCO"</span>, </span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCUELA SARGENTO PRIMERO CRISTIAN VENEGAS OJEDA"</span>, <span class="st">"COLEGIO NUEVOS HORIZONTES"</span>, <span class="st">"ESCUELA DE ADULTOS RIO SUR"</span>, </span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ESCCUELA MUNICIPAL PROFESOR DAVID FERNÁNDEZ PÉREZ"</span>, </span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LICEO BICENTENARIO CIENCIAS Y HUMANIDADES RBD 6223-5"</span>, <span class="st">"C.E.I.A. ANTONIO ACEVEDO HERNANDEZ"</span>,</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  <span class="st">"COLEGIO ANDINO"</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrar centros educativos</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>centros_filtrados <span class="ot">&lt;-</span> entidad_centro_educativo <span class="sc">%&gt;%</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Nombre_centro_educativo <span class="sc">%in%</span> centros_educativos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="metricas-y-dimensiones" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="metricas-y-dimensiones"><span class="header-section-number">6</span> Metricas y dimensiones</h2>
-<p>Las metricas diseñadas en función de los obejtivos específicos de la porpuesta son:</p>
+<p>Las metricas diseñadas en función de los objetivos específicos de la porpuesta son:</p>
 <ul>
 <li>N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos)</li>
 <li>N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro)</li>
@@ -302,53 +513,6 @@ p {
 <section id="análisis" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="análisis"><span class="header-section-number">7</span> Análisis</h2>
 <p>Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(renv)){<span class="fu">install.packages</span>(<span class="st">"renv"</span>)}</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#La función: renv::init() fue ejecutada en la consola</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># No obstante, prevalecen problemas en la sincronización de renv y renv.lock por lo que se introduce el siguiente código: </span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para instalar y cargar paquetes si no están instalados</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>install_and_load <span class="ot">&lt;-</span> <span class="cf">function</span>(package) {</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tryCatch</span>({</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">install.packages</span>(package, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">"Error al instalar el paquete:"</span>, package))</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista de paquetes necesarios</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"kableExtra"</span>, <span class="st">"DT"</span>, <span class="st">"table1"</span>, <span class="st">"reticulate"</span>, <span class="st">"gapminder"</span>, <span class="st">"latex2exp"</span>, <span class="st">"tidyverse"</span>, <span class="st">"plotly"</span>, <span class="st">"maps"</span>, <span class="st">"sf"</span>, <span class="st">"leaflet"</span>, <span class="st">"tmap"</span>, <span class="st">"rio"</span>, <span class="st">"readxl"</span>,<span class="st">"readr"</span>, <span class="st">"DiagrammeR"</span>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(tmap)){<span class="fu">install.packages</span>(<span class="st">"tmap"</span>)}</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar paquetes sin mostrar mensajes en la consola</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">capture.output</span>(<span class="fu">lapply</span>(packages, install_and_load)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Importación de bases de datos a utilizar </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>est_general_20241130 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/est_general_20241130.csv"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>caracterizacion_20241130 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/caracterizacion_20241130.csv"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X20240912_Directorio_Oficial_EE_2024_20240430_WEB <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 </section>
 <section id="limitaciones-y-consideraciones-éticas" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="limitaciones-y-consideraciones-éticas"><span class="header-section-number">8</span> Limitaciones y consideraciones éticas</h2>
