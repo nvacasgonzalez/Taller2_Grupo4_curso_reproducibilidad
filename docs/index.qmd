@@ -179,8 +179,30 @@ Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter 
 
 ## Modelo lógico-conceptual de la propuesta
 
+![Modelo lógico-conceptual](fig/Modelo_logico_conceptual.png)
 
-![Modelo lógico-conceptual](fig/Modelo_logico_conceptual.png){#fig-logo}
+```{r echo=TRUE, results="hide"}
+#SE CREA ENTIDAD DE REGION
+unique(caracterizacion_20241130$region)  
+
+regiones <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+  "Región Metropolitana de Santiago", "Región del Libertador Gral. Bernardo O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región Aysén del G. Carlos Ibáñez del Campo", 
+  "Región de Magallanes y la Antártica Chilena"
+  )
+
+numeros_region <- c(15, 1, 2, 3, 4, 5, 13, 6, 7, 16, 8, 9, 14, 10, 11, 12)
+
+entidad_region <- data.frame(
+  COD_REG_RBD = numeros_region,
+  region = regiones
+)
+
+
+```
+
+
 
 ```{r echo=TRUE, results="hide"}
 #CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
@@ -193,6 +215,7 @@ caracterizacion_20241130 <- caracterizacion_20241130 %>%
 entidad_beneficiarios_potenciales <- caracterizacion_20241130 %>% 
   select(ID_beneficiarios_potenciales, atendidos, region, procedencia,nacionalidad,  estado_civil,etnia, tramo_edad, calidad_procesal, tipo_poblacion, actividad_laboral_ingreso,
          beneficio_intrapenitenciario, instruccion_ingreso, sexo)
+
 
 #VERIFICACIÓN DE INCONSISTENCIAS. SE COMPRUEBA QUE TODOS ESTÁN BIEN. 
 unique(entidad_beneficiarios_potenciales$procedencia)
@@ -207,6 +230,7 @@ unique(entidad_beneficiarios_potenciales$beneficio_intrapenitenciario)
 unique(entidad_beneficiarios_potenciales$instruccion_ingreso)
 unique(entidad_beneficiarios_potenciales$sexo)
 
+
 #FILTRAR POR POBLACIÓN BENEFICIARIA CONDENADA, RECULUIDA 24HRS, Y CON CIERTOS NIVELES EDUCATIVOS
 unique(entidad_beneficiarios_potenciales$calidad_procesal)
 entidad_beneficiarios_potenciales <- subset(entidad_beneficiarios_potenciales, calidad_procesal == "Condenado")
@@ -219,27 +243,7 @@ entidad_beneficiarios_potenciales <- entidad_beneficiarios_potenciales %>%
 
 ```
 
-```{r echo=TRUE, results="hide"}
-#SE CREA ENTIDAD DE REGION
-unique(caracterizacion_20241130$region)  
 
-regiones <- c(
-  "Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
-  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
-  "Región Metropolitana de Santiago", "Región de O'Higgins", "Región del Maule", 
-  "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
-  "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", 
-  "Región de Magallanes y la Antártica Chilena")
-
-numeros_region <- c(15, 1, 2, 3, 4, 5, 13, 6, 7, 16, 8, 9, 14, 10, 11, 12)
-
-entidad_region <- data.frame(
-  COD_REG_RBD = numeros_region,
-  region = regiones
-)
-
-
-```
 
 ```{r echo=TRUE, results="hide" }
 # SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO
@@ -304,8 +308,8 @@ colnames(entidad_centro_educativo) <- c(
 # Vector con los nombres de las regiones estándar
 regiones_estandar <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
   "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
-  "Región Metropolitana de Santiago", "Región de O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
-  "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", 
+  "Región Metropolitana de Santiago", "Región del Libertador Gral. Bernardo O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región Aysén del G. Carlos Ibáñez del Campo", 
   "Región de Magallanes y la Antártica Chilena")
 
 # Normalizar los nombres de la variable región en el dataframe
@@ -377,25 +381,98 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
 
 ```{r}
+#| label: tbl-tabla2
+#| tbl-cap: "Personas adultas potencialmente beneficiarias de programas educativos en contexto de encierro por región"
+
+
 #OBTENER BENEFICIARIOS POR REGIÓN Y EL PORCENTAJE
 beneficiarios_por_region <- entidad_beneficiarios_potenciales %>%
   group_by(region) %>%
   summarise(total_beneficiarios = sum(atendidos, na.rm = TRUE)) %>%
   mutate(porcentaje = format(round((total_beneficiarios / sum(total_beneficiarios) * 100), 2), nsmall = 2))
 
+
+
+#Se cambia el encabezado para que coincida con el archivo shp a porteriori
+
+beneficiarios_por_region<- beneficiarios_por_region %>%
+  rename(Region = region)  
+
+
+
 # Crear tabla bien formateada
 
 beneficiarios_por_region <- beneficiarios_por_region %>%
   mutate(across(where(is.character), ~ iconv(.x, from = "latin1", to = "UTF-8")))
 
+beneficiarios_por_region$Region <- recode(beneficiarios_por_region$Region,
+  "Región de Arica y Parinacota" = "Región de Arica y Parinacota",
+  "Región de Tarapacá" = "Región de Tarapacá",
+  "Región de Antofagasta" = "Región de Antofagasta",
+  "Región de Atacama" = "Región de Atacama",
+  "Región de Coquimbo" = "Región de Coquimbo",
+  "Región de Valparaíso" = "Región de Valparaíso",
+  "Región Metropolitana" = "Región Metropolitana de Santiago",
+  "Región de O'Higgins" = "Región del Libertador Bernardo O'Higgins",
+  "Región del Maule" = "Región del Maule",
+  "Región de Ñuble" = "Región de Ñuble",
+  "Región del Biobío" = "Región del Bío-Bío",
+  "Región de La Araucanía" = "Región de La Araucanía",
+  "Región de Los Ríos" = "Región de Los Ríos",
+  "Región de Los Lagos" = "Región de Los Lagos", 
+  "Región de Aysén" = "Región de Aysén del Gral.Ibañez del Campo",
+  "Región de Magallanes" = "Región de Magallanes y Antártica Chilena"
+)
 
 beneficiarios_por_region %>%
-  kbl(caption = "Beneficiarios potenciales por región", format = "html") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
-  column_spec(2:ncol(beneficiarios_por_region), extra_css = "text-align: center;")
+  kbl(
+    caption = ,
+    format = "html",
+    align = c("l", rep("c", ncol(beneficiarios_por_region) - 1)) # Primera columna izq, resto centrado
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 
 
 ```
+
+
+```{r echo=TRUE, results="hide" }
+#| label: fig-tmap
+#| fig-cap: "Mapa Regional de potenciales beneficiarios"
+# Crear un mapa con datos de ejemplo
+
+
+
+# Cargar el  shapefile de regiones 
+
+
+shapefile_path <- "C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/Regiones"  
+regiones_sf <- st_read(shapefile_path)
+
+
+# Unir la tabla de beneficiarios con el shapefile usando la columna "region"
+mapa_beneficiarios <- regiones_sf %>%
+  left_join(beneficiarios_por_region, by = "Region")  
+
+tmap_options(check.and.fix = TRUE)
+
+# Creación  de mapa de calor con tmap
+tm_shape(mapa_beneficiarios) +
+  tm_polygons("total_beneficiarios", 
+              palette = "Reds",  
+              title = "Beneficiarios por Región",
+              style = "jenks") +  
+  tm_layout(legend.title.size = 1.2, 
+            frame = FALSE)  
+
+
+```
+
+
+
+
+
+
 
 ```{r echo=TRUE, results="hide"}
 # TRAMO DE EDAD BENEFICIARIOS
@@ -412,9 +489,6 @@ beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
   summarise(total = n(), .groups = "drop") %>%
   arrange(tramo_edad) %>%  # Ordenar según el factor
   mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
-
-
-
 ```
 
 
