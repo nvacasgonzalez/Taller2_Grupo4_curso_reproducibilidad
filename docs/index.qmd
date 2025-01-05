@@ -167,7 +167,7 @@ X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912
 
 ### Trasnformación (a través de R)
 
-![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png)
+![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png){#fig-logo}
 
 ### Carga (mediante GITHUB)
 
@@ -179,7 +179,8 @@ Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter 
 
 ## Modelo lógico-conceptual de la propuesta
 
-![](fig/Modelo_logico_conceptual.png)
+
+![Modelo lógico-conceptual](fig/Modelo_logico_conceptual.png){#fig-logo}
 
 ```{r echo=TRUE, results="hide"}
 #CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
