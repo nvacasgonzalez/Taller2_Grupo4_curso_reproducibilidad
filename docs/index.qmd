@@ -48,7 +48,6 @@ p {
 }
 ```
 
-
 ```{r}
 rm(list = ls())
 
@@ -85,8 +84,6 @@ if(!require(dplyr)){install.packages("dplyr")}
 invisible(capture.output(lapply(packages, install_and_load)))
 
 ```
-
-
 
 ## Antecedentes contextuales
 
@@ -171,8 +168,6 @@ X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912
 
 ![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png)
 
-
-
 ### Carga (mediante GITHUB)
 
 Nuestro **Back Room** o ambiente de trabajo donde se realizan todas las trasnformaciones, integraciones y armonizaciones de los datos es el presente repositorio de Github. Donde se ha silenciado la carpeta data. Lugar donde se encuentran preservadas las bases de datos originales y sus versiones limpiadas normalizadas e integradas.
@@ -184,7 +179,6 @@ Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter 
 ## Modelo lógico-conceptual de la propuesta
 
 ![](fig/Modelo_logico_conceptual.png)
-
 
 ```{r echo=TRUE, results="hide"}
 #CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
@@ -244,7 +238,6 @@ entidad_region <- data.frame(
 
 
 ```
-
 
 ```{r echo=TRUE, results="hide" }
 # SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO
@@ -348,19 +341,22 @@ centros_filtrados <- entidad_centro_educativo %>%
 
 ```
 
-
-
-
-
-
-
-
-## Metricas y dimensiones
+## Métricas y dimensiones
 
 Las metricas diseñadas en función de los objetivos específicos de la porpuesta son:
 
--   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos)
--   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro)
+-   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos) [^1]
+
+[^1]: Se considerarán beneficiarios potenciales a aquellas personas provadas de libertad con condena dictada y recluidas en un régimen de 24h.
+
+<!-- -->
+
+-   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro) [^2]
+
+[^2]: Se considerarán beneficiarios efectivos al n° total de personas matriculadas por centro educativo en contexto de encierro
+
+<!-- -->
+
 -   Tasa de cobertura de programas deducativos en contexto de encierro
 
 Y las dimensiones asociadas a dichas metricas son:
@@ -375,11 +371,6 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 ## Análisis
 
 Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
-
-
-
-
-
 
 ## Limitaciones y consideraciones éticas
 
