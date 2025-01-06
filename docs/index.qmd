@@ -435,43 +435,39 @@ beneficiarios_por_region %>%
 
 ```
 
+Como podemos obserbar en la Tabla 1, la región con más personas beneficiarias potenciales de programas educativos en contexto de encierro es la Región Metropolina representando 29,72% del universona de beneficiarios potenciales; seguida de la Región de Valparaíso con un 10,94%, la Región de Maule con 6,84% y la Región de Coquimbo con un 6,77%. 
 
-```{r echo=TRUE, results="hide" }
+Así mismo, a través de la Figura 2, encontramos representadas las regiones con menor número de beneficiarios son Región de Aysén del Gral.Ibañez del Campo (0,64%),la Región de Magallanes y Antártica Chilena (065%) y la Región del Ñúble (2,45%). 
+
+```{r}
 #| label: fig-tmap
 #| fig-cap: "Mapa Regional de potenciales beneficiarios"
-# Crear un mapa con datos de ejemplo
 
+# Se introduce modo interactivo
+tmap_mode("view")
 
-
-# Cargar el  shapefile de regiones 
-
-
+# Se carga el shapefile
 shapefile_path <- "C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/Regiones"  
 regiones_sf <- st_read(shapefile_path)
 
-
-# Unir la tabla de beneficiarios con el shapefile usando la columna "region"
+# Se une la tabla de beneficiarios con el shapefile usando la columna "Region"
 mapa_beneficiarios <- regiones_sf %>%
-  left_join(beneficiarios_por_region, by = "Region")  
+  left_join(beneficiarios_por_region, by = "Region")
 
+# Se introduce código para corregir geometrías si es necesario
 tmap_options(check.and.fix = TRUE)
 
-# Creación  de mapa de calor con tmap
+# Se crear el mapa interactivo con etiquetas
 tm_shape(mapa_beneficiarios) +
   tm_polygons("total_beneficiarios", 
               palette = "Reds",  
               title = "Beneficiarios por Región",
-              style = "jenks") +  
-  tm_layout(legend.title.size = 1.2, 
-            frame = FALSE)  
-
+              style = "jenks",
+              popup.vars = c("Región" = "Region")) +  # Muestra el nombre en un popup al hacer clic
+  tm_layout(legend.title.size = 1.4, 
+            frame = FALSE)
 
 ```
-
-
-
-
-
 
 
 ```{r echo=TRUE, results="hide"}
@@ -491,6 +487,9 @@ beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
   mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
 ```
 
+```{r}
+
+```
 
 ## Limitaciones y consideraciones éticas
 
