@@ -30,7 +30,6 @@ execute:
   message: false
   fig-width: 8
   fig-height: 6
-  output: pdf_document
 ---
 
 <img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
@@ -160,7 +159,7 @@ Las **bases de datos** a explorar son:
 ```{r}
 #Importación de bases de datos a utilizar 
 est_general_20241130 <- rio::import("_data/est_general_20241130.csv")
-caracterizacion_20241130 <- caracterizacion_20241130 <- rio:: import("_data/caracterizacion_20241130.csv")
+caracterizacion_20241130 <- rio::import("_data/caracterizacion_20241130.csv")
 X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv")
 
 
@@ -399,6 +398,8 @@ beneficiarios_por_region<- beneficiarios_por_region %>%
 
 # Crear tabla bien formateada
 
+beneficiarios_por_region <- beneficiarios_por_region %>%
+  mutate(across(where(is.character), ~ iconv(.x, from = "latin1", to = "UTF-8")))
 
 beneficiarios_por_region$Region <- recode(beneficiarios_por_region$Region,
   "Región de Arica y Parinacota" = "Región de Arica y Parinacota",
@@ -486,9 +487,13 @@ beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
   mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
 ```
 
+
+
+
 ```{r}
 #| label: tbl-tabla2
 #| tbl-cap: "Distribución de personas beneficiarias por sexo"
+
 
 
 # Crear tabla interactiva con variables seleccionadas
@@ -505,8 +510,8 @@ datatable(
 )
 
 ```
-
 En cuanto a los tramos etarios de las personas beneficiarías potenciales, los más importanrtes son de 25 a 29 (18,73%), de 30 a 34 años (20,26%) y de 35 a 39 (15,99%), sumando un 54,98 % del universo de potenciales beficiaríos.
+
 
 ## Limitaciones y consideraciones éticas
 
