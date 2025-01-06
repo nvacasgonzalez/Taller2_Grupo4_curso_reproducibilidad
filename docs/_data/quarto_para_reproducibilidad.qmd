@@ -1,0 +1,534 @@
+---
+title: "Desafíos para la implementación de las nuevas bases curriculares en la educación de personas privadas de libertad"
+subtitle: "Informe"
+author:
+  - name: "Agustín Rabié"
+    email: "agustin.rabie_n@mail.udp.cl"
+  - name: "Natalia Vacas González"
+    email: "natalia.vacasgonzalez@gmail.com"
+
+date: "`r Sys.Date()`"
+lang: es
+format:
+  html:
+    title-block-banner: "#ffffff"
+    smooth-scroll: true
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: true
+    df-print: paged
+    number-depth: 3
+    code-fold: true
+    bibliography: ref.bib
+    theme: cosmo
+    fig-cap-location: bottom
+#    css: styles.css
+execute:
+  python: true
+  warning: false
+  message: false
+  fig-width: 8
+  fig-height: 6
+---
+
+<img src="logo.png" style="width: 250px; position:absolute; top:0; left:0; padding:10px;"/>
+
+```{css}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+h1 {
+  color: #333333;
+}
+
+p {
+  text-align: justify;
+}
+```
+
+```{r}
+rm(list = ls())
+
+invisible(gc())
+
+
+if(!require(renv)){install.packages("renv")}
+
+#La función: renv::init() y renv:: snapshot fueron ejecutadas en la consola
+
+
+# Función para instalar y cargar paquetes si no están instalados
+
+install_and_load <- function(package) {
+  if (!require(package, character.only = TRUE)) {
+    tryCatch({
+      install.packages(package, dependencies = TRUE)
+      library(package, character.only = TRUE)
+    }, error = function(e) {
+      message(paste("Error al instalar el paquete:", package))
+    })
+  }
+}
+
+# Lista de paquetes necesarios
+packages <- c("knitr", "kableExtra", "DT", "table1", "reticulate", "gapminder", "latex2exp", "tidyverse", "plotly", "maps", "sf", "leaflet", "tmap", "rio", "readxl","readr", "DiagrammeR")
+
+if(!require(tmap)){install.packages("tmap")}
+
+if(!require(dplyr)){install.packages("dplyr")}
+
+
+# Cargar paquetes sin mostrar mensajes en la consola
+invisible(capture.output(lapply(packages, install_and_load)))
+
+```
+
+## Antecedentes contextuales
+
+### Nuevas Bases Curriculares para la Educación de Personas Jóvenes y Adultas (2024)
+
+El actual Gobierno de Chile, a través del Ministerio de Educación se encuentra impulsando las nuevas Bases Curriculares para la Formación General, Formación Instrumental y Formación Diferenciada de la Educación para Personas Jóvenes y Adultas.
+
+Estas nuevas Bases curriculares buscan actualizar la definición curricular establecida en en el Decreto Supremo N° 257, del año 2009, del Ministerio de Educación que aprobó los contenidos Mínimos Obligatorios para la Educación de personas Jóvenes y Adultas” (MINEDUC, 2024).
+
+### Impacto sobre la educación de adultos
+
+Esta iniciativa ministerial posee una incidencia directa en la educación de personas en contexto de encierro, ya que en Chile existen 91 establecimientos que imparten educación a más de 12 mil estudiantes que se encuentran privados de libertad, ya sea en recintos penitenciarios o en Sename ([MINEDUC, 2024](https://escolar.mineduc.cl/profesionales-de-mineduc-ministerio-de-justicia-y-docentes-reflexionan-sobre-desafios-de-la-educacion-en-contextos-de-encierro/))
+
+De este modo se vuelve crucial levantar antecedentes sobre la potencial población beneficiaria y proporcionar información relevante sobre el grado de desarrollo efectivo del derecho a la educación en contexto de encierro. Esto en miras de establecer una línea base para la implementación de las bases curriculares para la educación de personas privadas de libertad.
+
+## Objetivos
+
+**Objetivo general:** Contribuir a la implementación de las nuevas bases curriculares en la educación para personas jóvenes y adultas en contexto de encierro.
+
+**Objetivos específicos:**
+
+-   Describir las trayectorias socio-educativas de las personas privadas de libertad en Chile.
+
+-   Cuantificar la población beneficiaria potencial de programas educativos en contexto de encierro.
+
+-   Analizar la relación entre la población beneficiaria potencial vs. la cobertura actual ofertada por los centros educativos en contexto de encierro.
+
+## Relevancia del estudio exploratorio
+
+### La educación como factor de reinserción
+
+En Chile, las trayectorias educativas de las personas privadas de libertad son un reflejo de las desigualdades estructurales que afectan su acceso y continuidad en el sistema educativo. Estas desigualdades impactan su reinserción social y laboral post-reclusión [@Olivares2015ReinsercinSE].
+
+El acceso a programas educativos dentro del sistema penitenciario es clave para la rehabilitación y disminución de la reincidencia [@Scarfó_Castro_2017]. No obstante, existe poca documentación y análisis sobre las condiciones en las cuales se desarrollan estas intervenciones y su eficacia en el contexto chileno [@SANHUEZA2017].
+
+### Ciencia abierta para la toma de decisiones informada y la diversidad de miradas.
+
+El presente proyecto se rige bajo los principios que sustentan la ciencia abierta, con particular énfasis en:
+
+-   **Accesibilidad** sin restricciones y **disponibilidad** de los datos utilizados en formato legible, manipulable y reutilizable [@kimball2002data].
+
+-   Posibilidad de **reproducibilidad y replicabilidad** mediante de la facilitación de los códigos, la metodología y los protocolos utilizados [@Wilson2016GoodEP].
+
+-   **Transparecia** en la toma de decisiones detrás del procesamiento y análisis de los datos [@unknown].
+
+-   **Sostenibilidad** a través del uso de un repositorio que garantice su preservación y disponibilidad a futuro.
+
+La ciencia abierta posibilita la toma de decisiones basada en evidencia, fomentando políticas públicas más efectivas [@10.1007/978-981-13-0761-4_40]para la educación de personas privadas de libertad. En un área temática donde, además, es fundamental generar datos de calidad, al alcance de cualquier entidad adminsitrativa, científica o comunitaria para su discusión y enriquecimiento desde distintos puntos de vista.
+
+## Componentes clave de la arquitectura de datos de la propuesta
+
+El presente proyecto se rige bajo el modelo ETL (Extract, Transform, Load) para el proceso de integración y gestión de datos y, particularmente, en la creación de Data Warehouses o sistema de análisis de datos. A continuación desglosaremos cada una de las etapas que lo componen:
+
+### Extracción
+
+Para la extracción de datos se utilizaron las siguientes **fuentes de información**:
+
+Gendarmería de Chile: <https://www.gendarmeria.gob.cl/est_general.html>
+
+Gendarmería de Chile: <https://www.gendarmeria.gob.cl/car_personas_pp.html>
+
+Centro de Estudios del MINEDUC: <https://datosabiertos.mineduc.cl/directorio-de-establecimientos-educacionales/>
+
+Las **bases de datos** a explorar son:
+
+-   Estadística penitenciaria general
+
+-   Caracterización de personas privadas de libertad
+
+-   Directorio de establecimientos educacionales
+
+```{r}
+#Importación de bases de datos a utilizar 
+est_general_20241130 <- rio::import("_data/est_general_20241130.csv")
+caracterizacion_20241130 <- rio::import("_data/caracterizacion_20241130.csv")
+X20240912_Directorio_Oficial_EE_2024_20240430_WEB <- rio::import("_data/20240912_Directorio_Oficial_EE_2024_20240430_WEB.csv")
+
+
+```
+
+### Trasnformación (a través de R)
+
+![Esquema de transformación de datos del proyecto con ejemplos de las bases de datos utilizadas](fig/Transformación.png){#fig-logo}
+
+### Carga (mediante GITHUB)
+
+Nuestro **Back Room** o ambiente de trabajo donde se realizan todas las trasnformaciones, integraciones y armonizaciones de los datos es el presente repositorio de Github. Donde se ha silenciado la carpeta data. Lugar donde se encuentran preservadas las bases de datos originales y sus versiones limpiadas normalizadas e integradas.
+
+En el caso de el Front Room o ambiente donde se comparten y publican los datos transformados y optimizados para consulta y análisis se ha generado la presente HTML producida en Github para la publicación de resultados. Se incluiyen gráficos y mapas interacctivos a través de ggplot2 + plotly y leaflet.
+
+Dada la naturaleza de los datos (en su mayoría de tipo caracter) y el caracter exploratorio del presente proyecto se propone un análisis mediante estadísticos descriptivo.
+
+## Modelo lógico-conceptual de la propuesta
+
+![Modelo lógico-conceptual](fig/Modelo_logico_conceptual.png)
+
+```{r echo=TRUE, results="hide"}
+#SE CREA ENTIDAD DE REGION
+unique(caracterizacion_20241130$region)  
+
+regiones <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+  "Región Metropolitana de Santiago", "Región del Libertador Gral. Bernardo O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región Aysén del G. Carlos Ibáñez del Campo", 
+  "Región de Magallanes y la Antártica Chilena"
+  )
+
+numeros_region <- c(15, 1, 2, 3, 4, 5, 13, 6, 7, 16, 8, 9, 14, 10, 11, 12)
+
+entidad_region <- data.frame(
+  COD_REG_RBD = numeros_region,
+  region = regiones
+)
+
+
+```
+
+```{r echo=TRUE, results="hide"}
+#CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
+
+#PARA ELLO PRIMERO SE CREA UN ID.
+caracterizacion_20241130 <- caracterizacion_20241130 %>%
+  mutate(ID_beneficiarios_potenciales = paste0("ID_", row_number()))
+
+#AHORA SE CREA LA ENTIDAD.
+entidad_beneficiarios_potenciales <- caracterizacion_20241130 %>% 
+  select(ID_beneficiarios_potenciales, atendidos, region, procedencia,nacionalidad,  estado_civil,etnia, tramo_edad, calidad_procesal, tipo_poblacion, actividad_laboral_ingreso,
+         beneficio_intrapenitenciario, instruccion_ingreso, sexo)
+
+
+#VERIFICACIÓN DE INCONSISTENCIAS. SE COMPRUEBA QUE TODOS ESTÁN BIEN. 
+unique(entidad_beneficiarios_potenciales$procedencia)
+unique(entidad_beneficiarios_potenciales$nacionalidad)
+unique(entidad_beneficiarios_potenciales$estado_civil)
+unique(entidad_beneficiarios_potenciales$etnia)
+unique(entidad_beneficiarios_potenciales$tramo_edad)
+unique(entidad_beneficiarios_potenciales$calidad_procesal)
+unique(entidad_beneficiarios_potenciales$tipo_poblacion)
+unique(entidad_beneficiarios_potenciales$actividad_laboral_ingreso)
+unique(entidad_beneficiarios_potenciales$beneficio_intrapenitenciario)
+unique(entidad_beneficiarios_potenciales$instruccion_ingreso)
+unique(entidad_beneficiarios_potenciales$sexo)
+
+
+#FILTRAR POR POBLACIÓN BENEFICIARIA CONDENADA, RECULUIDA 24HRS, Y CON CIERTOS NIVELES EDUCATIVOS
+unique(entidad_beneficiarios_potenciales$calidad_procesal)
+entidad_beneficiarios_potenciales <- subset(entidad_beneficiarios_potenciales, calidad_procesal == "Condenado")
+
+unique(entidad_beneficiarios_potenciales$tipo_poblacion)
+entidad_beneficiarios_potenciales <- subset(entidad_beneficiarios_potenciales, tipo_poblacion == "Recluida 24 Hrs.")
+
+entidad_beneficiarios_potenciales <- entidad_beneficiarios_potenciales %>%
+  filter(instruccion_ingreso %in% c("Básica Completa", "Básica Incompleta", "Media Incompleta", "Sin Instrucción"))
+
+```
+
+```{r echo=TRUE, results="hide" }
+# SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO
+
+#FILTRO PARA OBTENER SOLO LOS ESTABLECIMIENTOS PENITENCIARIOS QUE COINCIDEN CON LAS CARACTERÍSTICAS BUSCADAS
+unique(est_general_20241130$subsistema)
+unique(est_general_20241130$tipo_poblacion)
+unique(est_general_20241130$poblacion)
+
+est_general_20241130 <- est_general_20241130 %>%
+  filter (subsistema == "Subsistema Cerrado",
+          tipo_poblacion == "Cerrado 24 Horas",
+          poblacion == "Condenados (Privados de Libertad 24 Horas)")
+
+#CREAR ENTIDAD
+entidad_establecimientos_penitenciarios <- est_general_20241130 %>%
+  select(establecimiento, region) %>%
+  distinct(establecimiento, .keep_all = TRUE) %>%  
+  mutate(ID_establecimiento = paste0("ID_", row_number())) %>%  
+  select(ID_establecimiento, everything())
+
+```
+
+```{r }
+#ENTIDAD CENTRO EDUCATIVO. 
+entidad_centro_educativo <- X20240912_Directorio_Oficial_EE_2024_20240430_WEB[, c(
+  "RBD",                  
+  "NOM_RBD",             
+  "COD_REG_RBD",           
+  "NOM_REG_RBD_A",         
+  "COD_PRO_RBD",           
+  "COD_COM_RBD",           
+  "NOM_COM_RBD",         
+  "COD_DEPROV_RBD",        
+  "NOM_DEPROV_RBD",        
+  "COD_DEPE2",           
+  "RURAL_RBD",            
+  "LATITUD",
+  "LONGITUD",
+  "MAT_TOTAL"
+)]
+ #CAMBIAR NOMBRE DE COLUMNAS  
+colnames(entidad_centro_educativo) <- c(
+  "ID_CentroEducativo",  # RBD
+  "Nombre_centro_educativo",  # NOM_RBD
+  "ID_Region",  # COD_REG_RBD
+  "region",  # NOM_REG_RBD_A
+  "Codigo_de_provincia",  # COD_PRO_RBD
+  "Codigo_oficial_comuna",  # COD_COM_RBD
+  "Nombre_comuna",  # NOM_COM_RBD
+  "Codigo_Dpto_Provincial_Educación",  # COD_DEPROV_RBD
+  "Nombre_Dpto_Provincial_Educación",  # NOM_DEPROV_RBD
+  "Dependencia_establecimiento",  # COD_DEPE2
+  "Indicador_ruralidad",  # RURAL_RBD
+  "Latitud_establecimiento",  # LATITUD
+  "Longitud_establecimiento",  # LONGITUD
+  "Matricula_total" # MAT_TOTAL
+)
+
+#NORMALIZAR COLUMNA DE REGION CON MISMOS NOMBRES DE LAS OTRAS ENTIDADES.
+
+# Vector con los nombres de las regiones estándar
+regiones_estandar <- c("Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", 
+  "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso", 
+  "Región Metropolitana de Santiago", "Región del Libertador Gral. Bernardo O'Higgins", "Región del Maule", "Región de Ñuble", "Región del Biobío", "Región de La Araucanía", 
+  "Región de Los Ríos", "Región de Los Lagos", "Región Aysén del G. Carlos Ibáñez del Campo", 
+  "Región de Magallanes y la Antártica Chilena")
+
+# Normalizar los nombres de la variable región en el dataframe
+entidad_centro_educativo$region_normalizada <- tolower(trimws(entidad_centro_educativo$region))
+
+# Definir el vector con abreviaturas 
+abreviaturas <- c("ayp", "tpca", "antof", "atcma", "coq", "valpo", "rm", "lgbo", "maule", "nuble", "bbio", "arauc", "rios", "lagos", "aysen", "mag")
+
+# Usar match() para mapear las regiones normalizadas a las estándar
+entidad_centro_educativo$region_estandarizada <- regiones_estandar[match(entidad_centro_educativo$region_normalizada, abreviaturas)]
+
+
+#FILTRAR POR ESTABLECIMIENTOS EDUCACIONALES QUE CUMPLEN CON CARACTERÍSITCAS QUE SE NECESITAN
+centros_educativos <- c(
+  "LICEO REBECA OLIVARES BENITEZ", "LICEO TECNICO PROF. DE ADULTOS PUKARA", "LICEO DE ADULTOS HUMBERTO DÍAZ CASANUEVA",
+  "LICEO DE ADULTOS HERBERT VARGAS WALLIS",
+  "LICEO SANTA MARIA EUFRASIA", "LICEO C.E.I.A. JOSE ALEJANDRO SORIA VARAS",
+  "ANEXO LICEO NOCTURNO", "LICEO DOMINGO LATRILLE LASTAUNOU",
+  "ESCUELA PROFESOR LUIS GARRIDO PÁVEZ",
+  "ESCUELA ANDRÉS BELLO", "ESCUELA JOSÉ DOMINGO SAAVEDRA",
+  "C.E.I.A. DR. OSVALDO ROJAS G",
+  "COLEGIO JUAN LUIS VIVES", "COLEGIO ANTUHUE", 
+  "ESCUELA ESPECIAL DE ADULTOS F Nº 142", 
+  "COLEGIO JUAN LUIS VIVES", "COLEGIO DE ADULTOS PROFESOR MANUEL GUERRERO CEBALLOS", "ESCUELA ALAMEDA LINARES", 
+  "ESCUELA PROF.REMIGIO AGURTO FUENTES", "ESCUELA MARIANO LATORRE", "ESC.CAPLLAN JOSE LUIS LOPEZ CARRASCO", 
+  "ESCUELA SARGENTO PRIMERO CRISTIAN VENEGAS OJEDA", "COLEGIO NUEVOS HORIZONTES", "ESCUELA DE ADULTOS RIO SUR", 
+  "ESCCUELA MUNICIPAL PROFESOR DAVID FERNÁNDEZ PÉREZ", 
+  "LICEO BICENTENARIO CIENCIAS Y HUMANIDADES RBD 6223-5", "C.E.I.A. ANTONIO ACEVEDO HERNANDEZ",
+  "COLEGIO ANDINO"
+)
+
+# Filtrar centros educativos
+centros_filtrados <- entidad_centro_educativo %>%
+  filter(Nombre_centro_educativo %in% centros_educativos)
+
+```
+
+## Métricas y dimensiones
+
+Las metricas diseñadas en función de los objetivos específicos de la porpuesta son:
+
+-   N° y porcentaje de beneficiarios potenciales (que cumplen los requisitos para formar parte de de los programas educativos) [^1]
+
+[^1]: Se considerarán beneficiarios potenciales a aquellas personas privadas de libertad con el estatus de condenadas y recluidas en un régimen de 24h.
+
+<!-- -->
+
+-   N° y porcentaje de beneciarios efectivos (equivale a la matrícula de centros educativos en contexto de encierro) [^2]
+
+[^2]: Se considerarán beneficiarios efectivos a las personas matriculadas en algún centro educativo en contexto de encierro.
+
+<!-- -->
+
+-   Tasa de cobertura de programas educativos en contexto de encierro: $$
+    \text{Tasa de cobertura} = \frac{\text{N° beneficiarios efectivos}}{\text{N° beneficiarios potenciales}} \times 100
+    $$
+
+Y las dimensiones asociadas a dichas metricas son:
+
+-   Dimensión demográfica: sexo, tramo etario, procedencia y nacionalidad, religión, etnia (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión educativa: instrucción de ingreso (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión laboral:actividad laboral al ingreso (Métrica N° y porcentaje de beneficiarios potenciales)
+-   Dimensión geográfica: región (Métrica N° y porcetnaje de beneficiarios potenciales, N° y porcentaje de beneficiarios de benediciarios efectivos y Tasa de cobertura de programas educativos en contexto de encierro)
+
+A continuación, se presenta el análisis que se desprende de las mencionadas métricas y dimensiones.
+
+## Análisis
+
+Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
+
+```{r}
+#| label: tbl-tabla1
+#| tbl-cap: "Personas adultas potencialmente beneficiarias de programas educativos en contexto de encierro por región"
+
+
+#OBTENER BENEFICIARIOS POR REGIÓN Y EL PORCENTAJE
+beneficiarios_por_region <- entidad_beneficiarios_potenciales %>%
+  group_by(region) %>%
+  summarise(total_beneficiarios = sum(atendidos, na.rm = TRUE)) %>%
+  mutate(porcentaje = format(round((total_beneficiarios / sum(total_beneficiarios) * 100), 2), nsmall = 2))
+
+
+
+#Se cambia el encabezado para que coincida con el archivo shp a porteriori
+
+beneficiarios_por_region<- beneficiarios_por_region %>%
+  rename(Region = region)  
+
+
+
+# Crear tabla bien formateada
+
+beneficiarios_por_region <- beneficiarios_por_region %>%
+  mutate(across(where(is.character), ~ iconv(.x, from = "latin1", to = "UTF-8")))
+
+beneficiarios_por_region$Region <- recode(beneficiarios_por_region$Region,
+  "Región de Arica y Parinacota" = "Región de Arica y Parinacota",
+  "Región de Tarapacá" = "Región de Tarapacá",
+  "Región de Antofagasta" = "Región de Antofagasta",
+  "Región de Atacama" = "Región de Atacama",
+  "Región de Coquimbo" = "Región de Coquimbo",
+  "Región de Valparaíso" = "Región de Valparaíso",
+  "Región Metropolitana" = "Región Metropolitana de Santiago",
+  "Región de O'Higgins" = "Región del Libertador Bernardo O'Higgins",
+  "Región del Maule" = "Región del Maule",
+  "Región de Ñuble" = "Región de Ñuble",
+  "Región del Biobío" = "Región del Bío-Bío",
+  "Región de La Araucanía" = "Región de La Araucanía",
+  "Región de Los Ríos" = "Región de Los Ríos",
+  "Región de Los Lagos" = "Región de Los Lagos", 
+  "Región de Aysén" = "Región de Aysén del Gral.Ibañez del Campo",
+  "Región de Magallanes" = "Región de Magallanes y Antártica Chilena"
+)
+
+beneficiarios_por_region %>%
+  kbl(
+    caption = ,
+    format = "html",
+    align = c("l", rep("c", ncol(beneficiarios_por_region) - 1)) # Primera columna izq, resto centrado
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+
+```
+
+Como podemos obserbar en la Tabla 1, la región con más personas beneficiarias potenciales de programas educativos en contexto de encierro es la Región Metropolina representando 29,72% del universona de beneficiarios potenciales; seguida de la Región de Valparaíso con un 10,94%, la Región de Maule con 6,84% y la Región de Coquimbo con un 6,77%.
+
+Así mismo, a través de la Figura 2, encontramos representadas las regiones con menor número de beneficiarios son Región de Aysén del Gral.Ibañez del Campo (0,64%),la Región de Magallanes y Antártica Chilena (065%) y la Región del Ñúble (2,45%).
+
+```{r}
+#| label: fig-tmap
+#| fig-cap: "Mapa Regional de potenciales beneficiarios"
+
+# Se introduce modo interactivo
+tmap_mode("view")
+
+# Se carga el shapefile
+shapefile_path <-  "C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/Regiones" #Este path no es muy reproducible pero no supimos como arreglarlo 
+
+regiones_sf <- st_read(shapefile_path, quiet = TRUE)
+
+# Se une la tabla de beneficiarios con el shapefile usando la columna "Region"
+mapa_beneficiarios <- regiones_sf %>%
+  left_join(beneficiarios_por_region, by = "Region")
+
+
+# Se introduce código para corregir geometrías si es necesario
+tmap_options(check.and.fix = TRUE)
+
+
+mapa_beneficiarios$Region <- as.character (mapa_beneficiarios$Region)
+# A pesar de se generó un código para que el popup respondiera al nombre de las regiones no funcionó 
+
+# Se crear el mapa interactivo con etiquetas
+tm_shape(mapa_beneficiarios) +
+  tm_polygons("total_beneficiarios", 
+              palette = "Reds",  
+              title = "Beneficiarios por Región",
+              style = "jenks",
+              popup.vars = ("Region")) +  # Muestra el nombre de la región en un popup
+  tm_layout(legend.title.size = 1.4, 
+            frame = FALSE)
+```
+
+```{r echo=TRUE, results="hide"}
+# TRAMO DE EDAD BENEFICIARIOS
+
+# Definir el orden de los tramos de edad
+orden_tramos <- c("18-19", "20-24", "25-29", "30-34", "35-39", "40-44", 
+                  "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", 
+                  "75-79", "80-84", "85-89", "90-94")
+
+# Convertir la variable 'tramo_edad' a factor y aplicar el orden especificado
+beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
+  mutate(tramo_edad = factor(tramo_edad, levels = orden_tramos)) %>%  # Convertir a factor con el orden definido
+  group_by(tramo_edad) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  arrange(tramo_edad) %>%  # Ordenar según el factor
+  mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
+```
+
+
+
+
+```{r}
+#| label: tbl-tabla2
+#| tbl-cap: "Distribución de personas beneficiarias por sexo"
+
+
+
+# Crear tabla interactiva con variables seleccionadas
+datatable(
+  beneficiarios_tramo_edad %>% select(tramo_edad, total, porcentaje),
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE,
+    searchHighlight = TRUE,
+    columnDefs = list(
+      list(targets = 2:3, className = 'dt-center') # Alinea las columnas 2 y 3 al centro
+    )
+  )
+)
+
+```
+En cuanto a los tramos etarios de las personas beneficiarías potenciales, los más importanrtes son de 25 a 29 (18,73%), de 30 a 34 años (20,26%) y de 35 a 39 (15,99%), sumando un 54,98 % del universo de potenciales beficiaríos.
+
+
+## Limitaciones y consideraciones éticas
+
+### Limitaciones
+
+La garantía de anonimato bajo la cual se generan y publican las bases de datos contempladas para este estudio, afecta a la granularidad de las métricas y por ende, a su caracterización. Este hecho, se torna particularmente crítico en relación a:
+
+-   la ausencia de la variable “establecimiento” en la base de datos que caracteriza a las personas “atendidas” por Gendarmería
+
+-   la clasificación del tipo de establecimiento educativo
+
+Adionalmente, durante la exploración del las bases de datos contempladas se detectaron inconsistencias en las variables “instrucción de ingreso”, “instrucción actual” imposibilitando el análisis de efectividad de los programas educativos.
+
+Por último, las bases de datos de Gendarmería posee un glosario asociado. No obstante, algunas definiciones no son lo suficientemente autoexplicativas por lo que la interpretación de las variables queda sujeta al criterio del (la) analista.
+
+### Consideraciones éticas
+
+El presente análisis debe ser complementado con literatura acerca de las barreras de acceso a la educación dentro de los centros penitenciarios. En este sentido, la cobertura educativa debe ser evaluada no solo desde la cantidad de programas y matricula disponibles, sino también en términos de calidad y accesibilidad para toda la población carcelaria.
+
+La presente propuesta adhiere a lo estipulado en las leyes 17.374 de secreto estadístico y 19.628 sobre protección de la vida privada.

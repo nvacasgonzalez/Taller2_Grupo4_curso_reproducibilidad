@@ -202,8 +202,6 @@ entidad_region <- data.frame(
 
 ```
 
-
-
 ```{r echo=TRUE, results="hide"}
 #CREACIÓN ENTIDAD DE BENEFICIARIOS POTENCIALES
 
@@ -242,8 +240,6 @@ entidad_beneficiarios_potenciales <- entidad_beneficiarios_potenciales %>%
   filter(instruccion_ingreso %in% c("Básica Completa", "Básica Incompleta", "Media Incompleta", "Sin Instrucción"))
 
 ```
-
-
 
 ```{r echo=TRUE, results="hide" }
 # SE CREA ENTIDAD DE ESTABECIMIENTO PENITENCIARIO
@@ -381,7 +377,7 @@ A continuación, se presenta el análisis que se desprende de las mencionadas m�
 Para realizar la descripción de las trayectorias socio-educativas de las personas privadas de libertad en Chile se incorporan una serie de tablas de frecuencia absoluta y relativa:
 
 ```{r}
-#| label: tbl-tabla2
+#| label: tbl-tabla1
 #| tbl-cap: "Personas adultas potencialmente beneficiarias de programas educativos en contexto de encierro por región"
 
 
@@ -435,9 +431,9 @@ beneficiarios_por_region %>%
 
 ```
 
-Como podemos obserbar en la Tabla 1, la región con más personas beneficiarias potenciales de programas educativos en contexto de encierro es la Región Metropolina representando 29,72% del universona de beneficiarios potenciales; seguida de la Región de Valparaíso con un 10,94%, la Región de Maule con 6,84% y la Región de Coquimbo con un 6,77%. 
+Como podemos obserbar en la Tabla 1, la región con más personas beneficiarias potenciales de programas educativos en contexto de encierro es la Región Metropolina representando 29,72% del universona de beneficiarios potenciales; seguida de la Región de Valparaíso con un 10,94%, la Región de Maule con 6,84% y la Región de Coquimbo con un 6,77%.
 
-Así mismo, a través de la Figura 2, encontramos representadas las regiones con menor número de beneficiarios son Región de Aysén del Gral.Ibañez del Campo (0,64%),la Región de Magallanes y Antártica Chilena (065%) y la Región del Ñúble (2,45%). 
+Así mismo, a través de la Figura 2, encontramos representadas las regiones con menor número de beneficiarios son Región de Aysén del Gral.Ibañez del Campo (0,64%),la Región de Magallanes y Antártica Chilena (065%) y la Región del Ñúble (2,45%).
 
 ```{r}
 #| label: fig-tmap
@@ -447,15 +443,21 @@ Así mismo, a través de la Figura 2, encontramos representadas las regiones con
 tmap_mode("view")
 
 # Se carga el shapefile
-shapefile_path <- "C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/Regiones"  
-regiones_sf <- st_read(shapefile_path)
+shapefile_path <-  "C:/Users/natal/OneDrive - Universidad Alberto Hurtado/PERSONAL/DIPLOMADO DATA SCIENCE/M. REPRODUCIBILIDAD/Taller_n2/Taller2_Grupo4_curso_reproducibilidad/docs/Regiones" #Este path no es muy reproducible pero no supimos como arreglarlo 
+
+regiones_sf <- st_read(shapefile_path, quiet = TRUE)
 
 # Se une la tabla de beneficiarios con el shapefile usando la columna "Region"
 mapa_beneficiarios <- regiones_sf %>%
   left_join(beneficiarios_por_region, by = "Region")
 
+
 # Se introduce código para corregir geometrías si es necesario
 tmap_options(check.and.fix = TRUE)
+
+
+mapa_beneficiarios$Region <- as.character (mapa_beneficiarios$Region)
+# A pesar de se generó un código para que el popup respondiera al nombre de las regiones no funcionó 
 
 # Se crear el mapa interactivo con etiquetas
 tm_shape(mapa_beneficiarios) +
@@ -463,12 +465,10 @@ tm_shape(mapa_beneficiarios) +
               palette = "Reds",  
               title = "Beneficiarios por Región",
               style = "jenks",
-              popup.vars = c("Región" = "Region")) +  # Muestra el nombre en un popup al hacer clic
+              popup.vars = ("Region")) +  # Muestra el nombre de la región en un popup
   tm_layout(legend.title.size = 1.4, 
             frame = FALSE)
-
 ```
-
 
 ```{r echo=TRUE, results="hide"}
 # TRAMO DE EDAD BENEFICIARIOS
@@ -487,9 +487,31 @@ beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
   mutate(porcentaje = round((total / sum(total) * 100), 2))  # Redondear a 2 decimales
 ```
 
+
+
+
 ```{r}
+#| label: tbl-tabla2
+#| tbl-cap: "Distribución de personas beneficiarias por sexo"
+
+
+
+# Crear tabla interactiva con variables seleccionadas
+datatable(
+  beneficiarios_tramo_edad %>% select(tramo_edad, total, porcentaje),
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE,
+    searchHighlight = TRUE,
+    columnDefs = list(
+      list(targets = 2:3, className = 'dt-center') # Alinea las columnas 2 y 3 al centro
+    )
+  )
+)
 
 ```
+En cuanto a los tramos etarios de las personas beneficiarías potenciales, los más importanrtes son de 25 a 29 (18,73%), de 30 a 34 años (20,26%) y de 35 a 39 (15,99%), sumando un 54,98 % del universo de potenciales beficiaríos.
+
 
 ## Limitaciones y consideraciones éticas
 
