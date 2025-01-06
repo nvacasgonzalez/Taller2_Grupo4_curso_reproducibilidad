@@ -437,7 +437,7 @@ Así mismo, a través de la Figura 2, encontramos representadas las regiones con
 ```{r}
 #| label: fig-tmap
 #| fig-cap: "Mapa Regional de potenciales beneficiarios"
-
+#| eval: false
 # Se introduce modo interactivo
 tmap_mode("view")
 
@@ -492,17 +492,21 @@ beneficiarios_tramo_edad <- entidad_beneficiarios_potenciales %>%
 
 
 # Crear tabla interactiva con variables seleccionadas
-datatable(
-  beneficiarios_tramo_edad %>% select(tramo_edad, total, porcentaje),
-  options = list(
-    pageLength = 10,
-    autoWidth = TRUE,
-    searchHighlight = TRUE,
-    columnDefs = list(
-      list(targets = 2:3, className = 'dt-center') # Alinea las columnas 2 y 3 al centro
-    )
-  )
-)
+# datatable(
+#   beneficiarios_tramo_edad %>% select(tramo_edad, total, porcentaje),
+#   options = list(
+#     pageLength = 10,
+#     autoWidth = TRUE,
+#     searchHighlight = TRUE,
+#     columnDefs = list(
+#       list(targets = 2:3, className = 'dt-center') # Alinea las columnas 2 y 3 al centro
+#     )
+#   )
+# )
+beneficiarios_tramo_edad%>% 
+dplyr::select(tramo_edad,total, porcentaje)%>%
+knitr::kable("markdown")
+
 
 ```
 
